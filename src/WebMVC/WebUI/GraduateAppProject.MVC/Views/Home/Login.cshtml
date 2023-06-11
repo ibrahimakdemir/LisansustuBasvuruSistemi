@@ -1,0 +1,145 @@
+﻿@model LoginModel
+@{
+    ViewData["Title"] = "Giriş";
+}
+
+
+<div class="container-fluid" style="margin-top:100px">
+    <div class="rounded d-flex justify-content-center">
+        <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
+            <div class="text-center">
+                <h3 class="text-success">Giriş</h3>
+            </div>
+            <form asp-action="Login">
+                <div class="p-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-success">
+                            <i class="bi bi-person-vcard-fill text-white"></i>
+                        </span>
+                        <input type="number" class="form-control" asp-for="CitizenNumber" required placeholder="T.C. Kimlik Numarası">
+                    </div>
+                    <span asp-validation-for="CitizenNumber"></span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-success">
+                            <i class="bi bi-person-vcard-fill text-white"></i>
+                        </span>
+                        <input type="password" class="form-control" asp-for="Password" required placeholder="Şifre">
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+
+                    <button class="btn btn-primary text-center mt-2 mx-auto" type="submit" id="loginBtn">
+                        Giriş Yap
+                    </button>
+                </div>
+                <div>
+                    <a asp-action="Register" class="text-danger text-muted">Kayıt Ol!</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal" style="background: none !important;" id="loading" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" style="background: none !important;">
+        <div class="modal-content" style="background: none !important; border: none;">
+            <div class="modal-body" style="background: none !important; text-align: center;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            alert("Test");
+            if (TempData["AlertMessage"] != null) {
+
+                var modal = new bootstrap.Modal(document.getElementById("loading"), {});
+                modal.show();
+                setTimeout(function () {
+                    alertify.confirm('Frameless: true', 'Closable: false', 'Movable: false').set('frameless', true).set('closable', false).set('movable', false).set({ transition: 'pulse', message: @TempData["Message"] });
+
+                }, 2000);
+            }
+        });
+    </script>
+}
+@*
+<div class="container-fluid" style="margin-top:100px">
+    <div class="rounded d-flex justify-content-center">
+        <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
+            <div class="text-center">
+                <h3 class="text-success">Giriş</h3>
+            </div>
+            <form id="loginForm">
+                <div class="p-4">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-success">
+                            <i class="bi bi-person-vcard-fill text-white"></i>
+                        </span>
+                        <input type="number" class="form-control" id="citizenNumber" name="CitizenNumber" required placeholder="T.C. Kimlik Numarası">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-success">
+                            <i class="bi bi-person-vcard-fill text-white"></i>
+                        </span>
+                        <input type="password" class="form-control" id="password" name="Password" required placeholder="Şifre">
+                    </div>
+
+                    <button class="btn btn-primary text-center mt-2 mx-auto" type="button" id="loginBtn">
+                        Giriş Yap
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal" style="background: none !important;" id="loading" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" style="background: none !important;">
+        <div class="modal-content" style="background: none !important; border: none;">
+            <div class="modal-body" style="background: none !important; text-align: center;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#loginBtn').click(function () {
+                var modal = new bootstrap.Modal(document.getElementById("loading"), {});
+                modal.show();
+                setTimeout(function () {
+                    $.ajax({
+                        url: '/Home/Login',
+                        type: 'POST',
+                        data: $('#loginForm').serialize(),
+                        success: function (response) {
+                            modal.hide();
+                            if (response.success == true) {
+                                let id = response.id;
+                                alertify.confirm('Frameless: true', 'Closable: false', 'Movable: false').set('frameless', true).set('closable', false).set('movable', false).set({ transition: 'pulse', message: response.message });
+                                setTimeout(function () {
+                                    window.location.href = "/Applicant/Index/" + id;
+                                }, 2000);
+                            }
+                            else {
+                                alertify.confirm('Frameless: true', 'Closable: true', 'Movable: false').set('frameless', true).set('closable', true).set('movable', false).set({ transition: 'pulse', message: response.message });
+                            }
+                        },
+                        error: function (error) {
+                            alertify.confirm('Frameless: true', 'Closable: false', 'Movable: false').set('frameless', true).set('closable', false).set('movable', false).set({ transition: 'pulse', message: response.message });
+                        }
+                    });
+                }, 2000);
+
+            });
+        });
+    </script>
+}*@

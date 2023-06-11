@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domains\GraduateAppProject.Entities\GraduateAppProject.WebMVC.Entities.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\GraduateAppProject.WebMVC.Repositories\GraduateAppProject.WebMVC.Repositories.csproj" />
+    <ProjectReference Include="..\GraduateAppProject.DataTransferObjects\GraduateAppProject.DataTransferObjects.csproj" />
+  </ItemGroup>
+
+</Project>

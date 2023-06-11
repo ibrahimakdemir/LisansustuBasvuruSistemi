@@ -1,0 +1,83 @@
+﻿@using System.Security.Claims
+<nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark" style="background-color:#476662">
+    <div class="container justify-content-between">
+        <div class="navbar-brand navbar-text text-white fw-bolder">
+            <a class="nav-link">
+                <img src="/img/logo.svg" alt="Logo" width="196" height="72">
+            </a>
+
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-around" id="navbarNavAltMarkup">
+            <div class="justify-content-center">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Aday"))
+                {
+                    <ul class="navbar-nav fw-bold fs-5  text-white">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/Applicant/Index">Anasayfa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="Applicant/ApplyToProgram">Başvuru yap</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="Applicant/GetMyApplications">Başvurularım</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="Applicant/GetMyInformations">Bilgilerim</a>
+                        </li>
+
+                    </ul>
+                }
+                else if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Görevli")))
+                {
+                    <ul class="navbar-nav fw-bold fs-5 text-white">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/Admin/Index">Anasayfa</a>
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/Admin/Index">Programlar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/Admin/CreateGraduateProgram">Program Ekle</a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/Admin/GetApplications">Başvurular</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/Admin/GetMyInformations">Bilgilerim</a>
+                        </li>
+
+                    </ul>
+                }
+                else
+                {
+                    <ul class="navbar-nav fw-bold fs-5 text-white">
+                        <li class="nav-item">
+                            <a class="nav-link text-white text-center" href="/Home/Index">Anasayfa</a>
+                        </li>
+                    </ul>
+                }
+
+            </div>
+            <div class="d-flex">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-danger me-2" type="button" asp-action="Logout" asp-controller="Applicant">Çıkış Yap</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary me-2" type="button" asp-action="Login" asp-controller="Home">Giriş</a>
+                    <a class="btn btn-success me-2" type="button" asp-action="Register" asp-controller="Home">Kayıt Ol</a>
+                }
+                <a class="btn btn-warning me-2" type="button" asp-action="Help" asp-controller="Home">Yardım</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!--If user not login?-->

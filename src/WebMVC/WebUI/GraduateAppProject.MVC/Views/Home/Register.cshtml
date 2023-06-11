@@ -1,0 +1,112 @@
+﻿@model CitizenCheckerModel
+<div class="container-fluid" style="margin-top:100px">
+    <div class="rounded d-flex justify-content-center">
+        <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
+            <div class="text-center">
+                <h3 class="text-success">Bilgi Doğrulama</h3>
+            </div>
+            <form id="firstStepForm" asp-action="CitizenCheck">
+                <div class="p-4">
+                    <div class="text-danger">
+                        @ViewData["ErrorMessage"]
+                    </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-success">
+                            <i class="bi bi-person-vcard-fill text-white"></i>
+                        </span>
+                        <input type="text" class="form-control" asp-for="FirstName" required placeholder="Ad">
+                    </div>
+                    <span asp-validation-for="FirstName"></span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-success">
+                            <i class="bi bi-person-vcard-fill text-white"></i>
+                        </span>
+                        <input type="text" class="form-control" asp-for="LastName" required placeholder="Soyad">
+                    </div>
+                    <span asp-validation-for="LastName"></span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-success">
+                            <i class="bi bi-123 text-white"></i>
+                        </span>
+                        <input type="number" class="form-control" asp-for="CitizenNumber" required placeholder="T.C. Kimlik Numarası">
+                    </div>
+                    <span asp-validation-for="CitizenNumber"></span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-success">
+                            <i class="bi bi-calendar-date text-white"></i>
+                        </span>
+                        <input type="number" class="form-control" asp-for="BirthYear" required placeholder="Doğum Yılı">
+                    </div>
+                    <span asp-validation-for="BirthYear"></span>
+
+                    <div class="form-group mb-3">
+                        <input class="btn btn-primary text-center mt-2 mx-auto" type="submit" id="checkCitizenBtn" value="Doğrula" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal" style="background: none !important;" id="loading" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" style="background: none !important;">
+        <div class="modal-content" style="background: none !important; border: none;">
+            <div class="modal-body" style="background: none !important; text-align: center;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('#checkCitizenBtn').click(function () {
+
+                var modal = new bootstrap.Modal(document.getElementById("loading"), {});
+                modal.show();
+                setTimeout(function () {
+                    $.ajax({
+                        url: '/Home/CitizenCheck',
+                        type: 'POST',
+                        data: $('#firstStepForm').serialize(),
+                        success: function (response) {
+                            modal.hide();
+                            if (response.isCitizen == true && response.isUser == false) {
+                                console.log('if');
+                                let id = response.id;
+                                alertify.confirm('Frameless: true', 'Closable: false', 'Movable: false').set('frameless', true).set('closable', false).set('movable', false).set({ transition: 'pulse', message: response.message });
+                                setTimeout(function () {
+                                    window.location.href = "/Home/RegisterStepTwo/" + id;
+                                }, 2000);
+                            }
+                            else if (response.isCitizen == true && response.isUser == true) {
+                                console.log('else if');
+                                alertify.confirm('Frameless: true', 'Closable: false', 'Movable: false').set('frameless', true).set('closable', false).set('movable', false).set({ transition: 'pulse', message: response.message });
+                                setTimeout(function () {
+                                    window.location.href = "/Home/Login/";
+                                }, 2000);
+                            }
+                            else {
+                                setTimeout(function () {
+                                    console.log('else');
+                                    alertify.confirm('Frameless: true', 'Closable: true', 'Movable: false').set('frameless', true).set('closable', true).set('movable', false).set({ transition: 'pulse', message: response.message });
+                                }, 2000);
+                            }
+                        },
+                        error: function (error) {
+                            console.log('error')
+                            setTimeout(function () {
+                                alertify.confirm('Frameless: true', 'Closable: false', 'Movable: false').set('frameless', true).set('closable', false).set('movable', false).set({ transition: 'pulse', message: 'Bir Hata Meydana Geldi!' });
+                            }, 2000);
+                        }
+                    });
+                }, 2000);
+
+            });
+        });
+    </script>
+}*@

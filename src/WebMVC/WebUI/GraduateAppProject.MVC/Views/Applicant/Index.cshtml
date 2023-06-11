@@ -1,0 +1,126 @@
+﻿@model ApplicantLandingPageModel
+
+
+@*
+@{
+    var count = 0;
+}
+
+<div class="container-fluid min-vh-100 d-flex flex-column" style="margin-top:100px">
+    <div class="row flex-grow-1">
+        <div class="col-md-4 border d-none d-md-block">
+            <div class="card">
+                <div class="card-img-top">
+                    <img src="https://xsgames.co/randomusers/assets/avatars/male/78.jpg" />
+                </div>
+                <div class="card-footer">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td>Ali</td>
+                            </tr>
+                            <tr>
+                                <td>Soyadı</td>
+                                <td>Akdemir</td>
+                            </tr>
+                            <tr>
+                                <td>TC</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Doğum Yılı</td>
+                                <td>1992</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 border position-relative">
+            <div class="d-md-none">
+                <button class="btn btn-primary position-absolute top-0 end-0 m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#bottomLeftOffcanvas" aria-controls="bottomLeftOffcanvas">
+                    Bilgilerim
+                </button>
+            </div>
+            <div class="justify-content-center col-8">
+                <div class="col-md-12 col-xl-12">
+                    <div class="container">
+                        <div class="d-flex">
+                            <div class="rounded rounded-4 shadow-lg border border-1 p-2 bg-white">
+                                <div class="text-center">
+                                    <h2 class="text-success">DUYURULAR</h2>
+                                </div>
+                                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-indicators">
+                                        @for (var i = 0; i < Model.IndexPageModel.Announcements.Count(); i++)
+                                        {
+                                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" @(i == 0 ? "class=active" : "") aria-label="Slide @(i + 1)"></button>
+                                        }
+                                    </div>
+                                    <div class="carousel-inner">
+                                        @foreach (var announcementDisplay in Model.IndexPageModel.Announcements)
+                                        {
+                                            <div class="carousel-item @(count == 0 ? "active" : "")">
+                                                <img src="@announcementDisplay.ImageURL" class="d-block img-fluid w-100" alt="image">
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <div class="border border-2 border-success rounded rounded-3 bg-success p-2 bg-opacity-75">
+                                                        <h3 class="text-danger">@announcementDisplay.Title</h3>
+                                                        <p class="lead">@announcementDisplay.Message</p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            count++;
+                                        }
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                                            data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                                            data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-md-none">
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="bottomLeftOffcanvas" aria-labelledby="bottomLeftOffcanvasLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="bottomLeftOffcanvasLabel">Bottom Left</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="col-12 border">
+                    Bottom Left
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<partial name="_UserAlesExamDisplay" model="Model"></partial>
+<partial name="_UserYdsExamDisplay" model="Model"></partial>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            console.log('a');
+            $('.documentBtn').click(function () {
+                var imgUrl = $(this).data('url');
+                var imgHtml = '<img src="' + imgUrl + '" class="img-fluid" />';
+                alertify.alert(imgHtml);
+            });
+        });
+    </script>
+}*@

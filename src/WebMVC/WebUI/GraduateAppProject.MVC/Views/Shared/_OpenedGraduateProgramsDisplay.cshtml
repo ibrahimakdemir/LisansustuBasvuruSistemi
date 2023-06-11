@@ -1,0 +1,35 @@
+﻿@model IList<GraduateProgram>
+<div class="col-md-12 col-xl-12 justify-content-center">
+    <div class="container mt-5">
+        <div class="">
+            <div class="rounded rounded-4 shadow-lg  border border-1  p-2 bg-white">
+                <div class="text-center">
+                    <h3 class="text-success">Başvurulara Açılan Lisanüstü Programlar</h3>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Graduate Major</th>
+                            <th scope="col">Language</th>
+                            <th scope="col">Capacity</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Academic Year</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        @foreach (var program in Model)
+                        {
+                            <tr>
+                                <td>@program.GraduateMajor.GraduateMajorName</td>
+                                <td>@program.Language.LanguageName</td>
+                                <td>@program.Capacity</td>
+                                <td>@program.Semester</td>
+                                <td>@program.AcademicYear</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
