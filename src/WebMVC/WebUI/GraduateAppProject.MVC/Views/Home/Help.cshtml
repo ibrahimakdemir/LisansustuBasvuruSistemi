@@ -1,0 +1,60 @@
+﻿<div class="container-fluid" style="margin-top:100px">
+    <div class="rounded d-flex justify-content-center">
+
+        <div class="col-lg-6 col-md-12 shadow-lg p-5 bg-light">
+            <div class="text-center">
+                <h3 class="text-success">Bize Ulaşın</h3>
+            </div>
+
+            <div class="row p-4">
+                <div class="col-lg-6">
+                    <div class="position-relative h-100">
+                        <iframe class="position-relative rounded rounded-3 border border-2 w-100 h-100"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d101968.45969068169!2d35.205666621301724!3d36.99752362640553!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15288f38a79c7193%3A0xd61674d8580bea06!2zQWRhbmEsIFJlxZ9hdGJleSwgU2V5aGFuL0FkYW5hLCBUw7xya2l5ZQ!5e0!3m2!1sen!2sus!4v1685784891062!5m2!1sen!2sus"
+                                frameborder="0" style="min-height: 250px; border: 0;" allowfullscreen="" aria-hidden="false"
+                                tabindex="0"></iframe>
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Misafir"))
+                        {
+                            <div class="input-group mb-3">
+                                <span class="input-group-text bg-success">
+                                    <i class="bi bi-person-fill text-white"></i>
+                                </span>
+                                <input type="email" class="form-control" id="firstName" name="FirstName" required placeholder="Ad">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text bg-success">
+                                    <i class="bi bi-person-fill text-white"></i>
+                                </span>
+                                <input type="email" class="form-control" id="lastName" name="LastName" required placeholder="Soyad">
+                            </div>
+                        }
+                        else
+                        {
+                           <div class="pt-3"></div>
+                        }
+                        <div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text bg-success">
+                                    <i class="bi bi-envelope-at-fill text-white"></i>
+                                </span>
+                                <input type="email" class="form-control" id="mailAddress" name="EMail" required placeholder="E-Posta Adresi">
+                            </div>
+                            <div class="input-group">
+                                <textarea type="text" class="form-control" id="message" name="Message" rows="5" required placeholder="Mesaj"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <button class="btn btn-success text-center mt-2 col-5" type="button" id="sendBtn">
+                        Gönder
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

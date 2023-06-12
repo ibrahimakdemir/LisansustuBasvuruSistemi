@@ -5,6 +5,7 @@ using GraduateAppProject.WebMVC.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using GraduateAppProject.MVC.Extensions;
+using GraduateAppProject.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 {
     opt.Cookie.Name = "NetCoreMvc.Auth";
     opt.LoginPath = "/Home/Login";
-    opt.AccessDeniedPath = "/Home/Login";
+    opt.AccessDeniedPath = "/Home/AccessDeniedPage";
 });
 
 builder.Services.AddSession(option =>

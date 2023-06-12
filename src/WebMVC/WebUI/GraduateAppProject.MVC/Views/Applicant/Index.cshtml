@@ -1,7 +1,7 @@
 ﻿@model ApplicantLandingPageModel
 
 
-@*
+
 @{
     var count = 0;
 }
@@ -26,7 +26,7 @@
                             </tr>
                             <tr>
                                 <td>TC</td>
-                                <td></td>
+                                <td>321312312312</td>
                             </tr>
                             <tr>
                                 <td>Doğum Yılı</td>
@@ -109,10 +109,11 @@
 </div>
 
 
+<!--Bunlar bilgilerim kısmında görülebilir!-->
+@*<partial name="_UserAlesExamDisplay" model="Model.ApplicantInformationsModel.UserAlesExamDTO"></partial>
+<partial name="_UserYdsExamDisplay" model="Model.ApplicantInformationsModel.UserYdsExamDTO"></partial>*@
 
-@*<partial name="_UserAlesExamDisplay" model="Model"></partial>
-<partial name="_UserYdsExamDisplay" model="Model"></partial>
-@section Scripts {
+@*@section Scripts {
     <script>
         $(document).ready(function () {
             console.log('a');

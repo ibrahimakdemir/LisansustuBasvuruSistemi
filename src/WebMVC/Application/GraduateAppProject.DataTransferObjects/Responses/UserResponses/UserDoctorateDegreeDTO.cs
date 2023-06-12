@@ -8,6 +8,7 @@ namespace GraduateAppProject.DataTransferObjects.Responses.UserResponses
 {
     public class UserDoctorateDegreeDTO
     {
+        public int Id { get; set; }
         public int GraduateMajorId { get; set; }
 
         public bool IsActive { get; set; }

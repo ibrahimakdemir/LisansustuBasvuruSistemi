@@ -2,9 +2,26 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark" style="background-color:#476662">
     <div class="container justify-content-between">
         <div class="navbar-brand navbar-text text-white fw-bolder">
-            <a class="nav-link">
-                <img src="/img/logo.svg" alt="Logo" width="196" height="72">
-            </a>
+
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Aday"))
+            {
+                <a class="nav-link" asp-action="Index" asp-controller="Applicant">
+                    <img src="/img/logo.svg" alt="Logo" width="196" height="72">
+                </a>
+            }
+            else if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <a class="nav-link" asp-action="Index" asp-controller="Admin">
+                    <img src="/img/logo.svg" alt="Logo" width="196" height="72">
+                </a>
+            }
+            else
+            {
+                <a class="nav-link" asp-action="Index" asp-controller="Home">
+                    <img src="/img/logo.svg" alt="Logo" width="196" height="72">
+                </a>
+            }
+           
 
         </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,21 +47,20 @@
 
                     </ul>
                 }
-                else if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Görevli")))
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                 {
                     <ul class="navbar-nav fw-bold fs-5 text-white">
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/Admin/Index">Anasayfa</a>
                         </li>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="/Admin/Index">Programlar</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="/Admin/CreateGraduateProgram">Program Ekle</a>
-                            </li>
-                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/Admin/Index">Programlar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/Admin/CreateGraduateProgram">Program Ekle</a>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/Admin/GetApplications">Başvurular</a>
                         </li>
@@ -54,27 +70,25 @@
 
                     </ul>
                 }
-                else
-                {
-                    <ul class="navbar-nav fw-bold fs-5 text-white">
-                        <li class="nav-item">
-                            <a class="nav-link text-white text-center" href="/Home/Index">Anasayfa</a>
-                        </li>
-                    </ul>
-                }
-
             </div>
             <div class="d-flex">
-                @if (User.Identity.IsAuthenticated)
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Aday"))
                 {
                     <a class="btn btn-danger me-2" type="button" asp-action="Logout" asp-controller="Applicant">Çıkış Yap</a>
+                    <a class="btn btn-warning me-2" type="button" asp-action="Help" asp-controller="Home">Yardım</a>
+
                 }
-                else
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-danger me-2" type="button" asp-action="Logout" asp-controller="Admin">Çıkış Yap</a>
+                }
+                @if (!User.Identity.IsAuthenticated || User.IsInRole("Misafir"))
                 {
                     <a class="btn btn-primary me-2" type="button" asp-action="Login" asp-controller="Home">Giriş</a>
                     <a class="btn btn-success me-2" type="button" asp-action="Register" asp-controller="Home">Kayıt Ol</a>
+                    <a class="btn btn-warning me-2" type="button" asp-action="Help" asp-controller="Home">Yardım</a>
+
                 }
-                <a class="btn btn-warning me-2" type="button" asp-action="Help" asp-controller="Home">Yardım</a>
             </div>
         </div>
     </div>

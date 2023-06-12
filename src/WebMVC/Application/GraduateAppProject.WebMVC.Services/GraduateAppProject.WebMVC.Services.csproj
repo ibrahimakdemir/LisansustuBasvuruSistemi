@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\WebAPI\Application\GraduateAppProject.Services\GraduateAppProject.Services.csproj" />
     <ProjectReference Include="..\..\Domains\GraduateAppProject.Entities\GraduateAppProject.WebMVC.Entities.csproj" />
     <ProjectReference Include="..\..\Infrastructure\GraduateAppProject.WebMVC.Repositories\GraduateAppProject.WebMVC.Repositories.csproj" />
     <ProjectReference Include="..\GraduateAppProject.DataTransferObjects\GraduateAppProject.DataTransferObjects.csproj" />

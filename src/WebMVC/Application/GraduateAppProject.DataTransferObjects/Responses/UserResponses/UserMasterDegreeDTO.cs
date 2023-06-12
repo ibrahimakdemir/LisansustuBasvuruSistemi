@@ -8,6 +8,7 @@ namespace GraduateAppProject.DataTransferObjects.Responses.UserResponses
 {
     public class UserMasterDegreeDTO
     {
+        public int Id { get; set; }
         public int DepartmentId { get; set; }
 
         public bool IsActive { get; set; }
@@ -24,7 +25,7 @@ namespace GraduateAppProject.DataTransferObjects.Responses.UserResponses
 
         public int LanguageId { get; set; }
 
-        public string DiplomaUrl { get; set; } = null!;
+        public string DiplomaUrl { get; set; }
 
         public string? TranscriptUrl { get; set; }
     }

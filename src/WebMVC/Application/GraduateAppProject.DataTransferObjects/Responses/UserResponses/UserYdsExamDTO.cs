@@ -8,7 +8,8 @@ namespace GraduateAppProject.DataTransferObjects.Responses.UserResponses
 {
     public class UserYdsExamDTO
     {
-        public string DocumentUrl { get; set; } = null!;
+        public int Id { get; set; }
+        public string DocumentUrl { get; set; }
 
         public decimal YdsGrade { get; set; }
 

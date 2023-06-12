@@ -2,6 +2,7 @@
 using GraduateAppProject.MVC.Extensions;
 using GraduateAppProject.MVC.Models;
 using GraduateAppProject.WebMVC.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,13 +10,15 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace GraduateAppProject.MVC.Controllers
 {
-
+    
+    [Authorize(Roles = "Admin,Görevli")]
     public class AdminController : Controller
     {
         private readonly IGraduateInformationService _graduateService;
         private readonly ILogger<AdminController> _logger;
         private readonly IMemoryCache _memoryCache;
 
+        
         public AdminController(IGraduateInformationService graduateService, ILogger<AdminController> logger, IMemoryCache memoryCache)
         {
             _graduateService = graduateService;
@@ -23,7 +26,6 @@ namespace GraduateAppProject.MVC.Controllers
             _memoryCache = memoryCache;
         }
 
-        [Authorize(Roles = "Admin,Görevli")]
         public async Task<IActionResult> Index()
         {
             var indexPageModel = await CachingExtensions.GetIndexPageModelFromCacheOrDb(_graduateService, _memoryCache, _logger);
@@ -69,6 +71,17 @@ namespace GraduateAppProject.MVC.Controllers
         {
             var graduateMajorsForSelectList = await _graduateService.GetGraduateMajorsAsync();
             return graduateMajorsForSelectList.Select(g => new SelectListItem() { Text = g.GraduateMajorName, Value = g.Id.ToString() });
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Help()
+        {
+            
+            return View();
         }
     }
 }

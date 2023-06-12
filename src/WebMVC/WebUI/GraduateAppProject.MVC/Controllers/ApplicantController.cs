@@ -38,43 +38,16 @@ namespace GraduateAppProject.MVC.Controllers
             };
             return View(userLandingPageModel);
         }
-
+        #region Caching Not
         //Cache'leme işlemini kullanıcı bilgilerini içeren model ile yapamam çünkü tüm kullanıcılar için ortak tutuluyor.
         //Yani kullanıcı bilgilerini session'a atıp, kullanıcı özel olmasını sağlamış olurken,
         //herkes için ortak olan Announcements ve GraduatePrograms modellerini cache ile tutabilirim. Çünkü herkes aynısnı görüyor.
         //Buna göre universiteler, fakülteler, bölümler ... gibi tabloların verilerini
         //uygulama ayağa kalktığında cache içerisinde saklayarak, her 24 saatte(veya haftada) bir yenilenmesini sağlayabilirim.
         //Böylece her lazım olduğunda veritabanına sorgu göndermeme gerek kalmaz.
-
-        //private async Task<ApplicantInformationsModel> GetApplicantInfoFromCacheOrDb(int citizenId)
-        //{
-        //    if (!_memoryCache.TryGetValue("ApplicantInformationsModel", out CacheDataInfoForApplicantPages cacheDataInfo))
-        //    {
-        //        var options = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1))
-        //                                                   .SetPriority(CacheItemPriority.Normal);
-
-        //        cacheDataInfo = new CacheDataInfoForApplicantPages()
-        //        {
-        //            CacheTime = DateTime.Now,
-        //            ApplicantInformationsModel = await GetApplicantInformationsModelAsync(citizenId)
-        //        };
-
-        //        _memoryCache.Set("ApplicantInformationsModel", cacheDataInfo, options);
-        //    }
-        //    _logger.LogInformation($"{cacheDataInfo.CacheTime.ToLongTimeString()} anındaki cache'i görmektesiniz!");
-        //    var infoModel = cacheDataInfo.ApplicantInformationsModel;
-        //    return infoModel;
-        //}
-
+        #endregion
         private async Task<ApplicantInformationsModel> GetApplicantInformationsModelAsync(int citizenId)
         {
-            //var userIdentityInfo = await _userService.GetUserIdentityInformationDTOByCitizenIdAsync(citizenId);
-            //var userAlesExamsInfo = await _userService.GetUserAlesExamDTOByCitizenIdAsync(citizenId);
-            //var bachelorDegreesInfo = await _userService.GetUserBachelorDegreeDTOByCitizenIdAsync(citizenId);
-            //var doctorateDegreesInfo = await _userService.GetUserDoctorateDegreeDTOByCitizenIdAsync(citizenId);
-            //var masterDegreesInfo = await _userService.GetUserMasterDegreeDTOByCitizenIdAsync(citizenId);
-            //var ydsExamsInfo = await _userService.GetUserYdsExamDTOByCitizenIdAsync(citizenId);
-
             var infoModel = new ApplicantInformationsModel() 
             {
                 UserIdentityInformationDTO = await _userService.GetUserIdentityInformationDTOByCitizenIdAsync(citizenId),

@@ -42,11 +42,6 @@ namespace GraduateAppProject.WebMVC.Services
             return 0;
         }
 
-        public IList<UserAlesExamDTO> GetUserAlesExamDTOByCitizenId(int citizenId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IList<UserAlesExamDTO>> GetUserAlesExamDTOByCitizenIdAsync(int citizenId)
         {
             string endPoint = $"GetAlesExamsByCitizenId?id={citizenId}";
@@ -88,27 +83,6 @@ namespace GraduateAppProject.WebMVC.Services
             return userYdsExamsDTO;
         }
 
-        public UserIdentityInformationDTO GetUserIdentityInformationDTOByCitizenId(int citizenId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<UserBachelorDegreeDTO> GetUserBachelorDegreeDTOByCitizenId(int citizenId)
-        {
-            throw new NotImplementedException();
-        }
-        public IList<UserDoctorateDegreeDTO> GetUserDoctorateDegreeDTOByCitizenId(int citizenId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<UserMasterDegreeDTO> GetUserMasterDegreeDTOByCitizenId(int citizenId)
-        {
-            throw new NotImplementedException();
-        }
-
-       
-
         public string GetUserRoleByCitizenId(int citizenId)
         {
             var userId = _userRepository.GetUserIdByCitizenId(citizenId);
@@ -121,14 +95,7 @@ namespace GraduateAppProject.WebMVC.Services
             var userId = await _userRepository.GetUserIdByCitizenIdAsync(citizenId);
             var userRole = await _userRepository.GetUserRoleByUserIdAsync(userId);
             return userRole;
-        }
-
-        public IList<UserYdsExamDTO> GetUserYdsExamDTOByCitizenId(int citizenId)
-        {
-            throw new NotImplementedException();
-        }
-
-        
+        }        
 
         public bool IsRegistered(int citizenId)
         {

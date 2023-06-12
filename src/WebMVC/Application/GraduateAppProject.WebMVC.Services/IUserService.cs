@@ -28,17 +28,11 @@ namespace GraduateAppProject.WebMVC.Services
 
 
 
-        IList<UserAlesExamDTO> GetUserAlesExamDTOByCitizenId(int citizenId);
         Task<IList<UserAlesExamDTO>> GetUserAlesExamDTOByCitizenIdAsync(int citizenId);
-        IList<UserBachelorDegreeDTO> GetUserBachelorDegreeDTOByCitizenId(int citizenId);
         Task<IList<UserBachelorDegreeDTO>> GetUserBachelorDegreeDTOByCitizenIdAsync(int citizenId);
-        IList<UserDoctorateDegreeDTO> GetUserDoctorateDegreeDTOByCitizenId(int citizenId);
         Task<IList<UserDoctorateDegreeDTO>> GetUserDoctorateDegreeDTOByCitizenIdAsync(int citizenId);
-        UserIdentityInformationDTO GetUserIdentityInformationDTOByCitizenId(int citizenId);
         Task<UserIdentityInformationDTO> GetUserIdentityInformationDTOByCitizenIdAsync(int citizenId);
-        IList<UserMasterDegreeDTO> GetUserMasterDegreeDTOByCitizenId(int citizenId);
         Task<IList<UserMasterDegreeDTO>> GetUserMasterDegreeDTOByCitizenIdAsync(int citizenId);
-        IList<UserYdsExamDTO> GetUserYdsExamDTOByCitizenId(int citizenId);
         Task<IList<UserYdsExamDTO>> GetUserYdsExamDTOByCitizenIdAsync(int citizenId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GraduateAppProject.DataTransferObjects.Requests;
+using GraduateAppProject.Entities;
 using GraduateAppProject.MVC.CacheTools;
 using GraduateAppProject.MVC.Extensions;
 using GraduateAppProject.MVC.Models;
@@ -13,7 +14,7 @@ using System.Security.Claims;
 
 namespace GraduateAppProject.MVC.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "Misafir")]
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
@@ -31,17 +32,35 @@ namespace GraduateAppProject.MVC.Controllers
             _graduateService = graduateInformationService;
             _memoryCache = memoryCache;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            else if (User.Identity.IsAuthenticated && User.IsInRole("Aday"))
+            {
+                return RedirectToAction("Index", "Applicant");
+            }
+
+            await HttpContext.SignOutAsync();
+            var claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Role, "Misafir")
+                };
+            var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties();
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimIdentity), authProperties);
+
             //For Login --> Password:123
-            ViewData["Test"] = ("dUgGJkMwx1atrR+vwn+jkQ==").DecryptWithHash(_configuration);
+            ViewData["Test"] = ("f12TZfT4Fn/pi3H8AfxXAQ==").DecryptWithHash(_configuration);
 
 
             //Burada cache'e attığım için kullanıcı tarafında bile sürekli veritabanına sorgu atmama gerek yok!
             //Ayrıca announcement veya graduate program'lar ile ilgili bir veri değişikliği söz konusu ise
             //o veri değişikliği yapıldığında memorycache içindeki bu bilgi de silinmelidir ki gelen ilk istekte güncel veri cache'e eklenmiş olsun!
-            var indexPageModel = await CachingExtensions.GetIndexPageModelFromCacheOrDb(_graduateService,_memoryCache,_logger);
+            var indexPageModel = await CachingExtensions.GetIndexPageModelFromCacheOrDb(_graduateService, _memoryCache, _logger);
 
             ViewBag.Index = indexPageModel.Announcements.Count();
 
@@ -49,9 +68,18 @@ namespace GraduateAppProject.MVC.Controllers
             return View(indexPageModel);
         }
 
-        
+        [AllowAnonymous]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            else if (User.Identity.IsAuthenticated && User.IsInRole("Aday"))
+            {
+                return RedirectToAction("Index", "Applicant");
+            }
+
             return View();
         }
         [HttpPost]
@@ -73,7 +101,7 @@ namespace GraduateAppProject.MVC.Controllers
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimIdentity), authProperties);
                     if (userRole == "Admin")
                     {
-                        return RedirectToAction("Index", "Admin", new { id = userCitizenId });
+                        return RedirectToAction("Index", "Admin", new { id = userCitizenId }); //Session kullan
                     }
                     return RedirectToAction("Index", "Applicant", new { id = userCitizenId });
                 }
@@ -129,7 +157,7 @@ namespace GraduateAppProject.MVC.Controllers
             }
             return View(registerModel);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> CitizenCheck(CitizenCheckerModel citizenChecker)
         {
@@ -163,6 +191,36 @@ namespace GraduateAppProject.MVC.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+
+
+        [AllowAnonymous]
+        public IActionResult Help()
+        {
+            if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            return View();
+        }
+        
+        [AllowAnonymous]
+        public IActionResult AccessDeniedPage()
+        {
+            if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            else if (User.Identity.IsAuthenticated && User.IsInRole("Aday"))
+            {
+                return RedirectToAction("Index", "Applicant");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }
