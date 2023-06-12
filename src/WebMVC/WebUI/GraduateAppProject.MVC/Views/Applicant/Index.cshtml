@@ -1,7 +1,80 @@
 ﻿@model ApplicantLandingPageModel
 
+@{
+    var count = 0;
+}
 
 
+<div class="offcanvas offcanvas-start" style="width:min-content;background-color:#476662" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+    <div class="offcanvas-header justify-content-end">
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <partial name="_UserInformationCardDisplay"></partial>
+</div>
+<div class="row bg-white m-0">
+    <div class="col-md-2 d-none d-xl-block min-vh-100 p-0 position-relative">
+        <partial name="_UserInformationCardDisplay"></partial>
+    </div>
+    <div class="col-md-12 col-xl-10 d-sm-block" style="margin-top:50px">
+        <div class="container">
+            <div class="text-end me-4">
+
+                <button class="btn btn-primary d-xl-none mb-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                    <i class="bi bi-person-vcard"></i> Bilgilerim</button>
+            </div>
+            <div class="col-md-12 col-xl-12">
+                <div class="container ">
+                    <div class="d-flex">
+                        <div class="rounded rounded-4 shadow-lg border border-1 p-2 bg-white">
+                            <div class="text-center">
+                                <h2 class="text-success">DUYURULAR</h2>
+                            </div>
+                            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    @for (var i = 0; i < Model.IndexPageModel.Announcements.Count(); i++)
+                                    {
+                                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" @(i == 0 ? "class=active" : "") aria-label="Slide @(i + 1)"></button>
+                                    }
+                                </div>
+                                <div class="carousel-inner">
+                                    @foreach (var announcementDisplay in Model.IndexPageModel.Announcements)
+                                    {
+                                        <div class="carousel-item @(count == 0 ? "active" : "")">
+                                            <img src="@announcementDisplay.ImageURL" class="d-block img-fluid w-100" alt="image">
+                                            <div class="carousel-caption d-none d-md-block">
+                                                <div class="border border-2 border-success rounded rounded-3 bg-success p-2 bg-opacity-75">
+                                                    <h3 class="text-danger">@announcementDisplay.Title</h3>
+                                                    <p class="lead">@announcementDisplay.Message</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        count++;
+                                    }
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                                        data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                                        data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-xl-12 d-sm-block">
+                <partial name="_OpenedGraduateProgramsDisplay" model="Model.IndexPageModel.GraduatePrograms"></partial>
+            </div>
+        </div>
+    </div>
+    
+</div>
+@*
 @{
     var count = 0;
 }
@@ -107,7 +180,7 @@
         </div>
     </div>
 </div>
-
+*@
 
 <!--Bunlar bilgilerim kısmında görülebilir!-->
 @*<partial name="_UserAlesExamDisplay" model="Model.ApplicantInformationsModel.UserAlesExamDTO"></partial>

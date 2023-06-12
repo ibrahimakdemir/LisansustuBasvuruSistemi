@@ -55,6 +55,7 @@ namespace GraduateAppProject.MVC.Controllers
 
             //For Login --> Password:123
             ViewData["Test"] = ("f12TZfT4Fn/pi3H8AfxXAQ==").DecryptWithHash(_configuration);
+            //ViewData["Test"] = ("dUgGJkMwx1atrR+vwn+jkQ==").DecryptWithHash(_configuration);
 
 
             //Burada cache'e attığım için kullanıcı tarafında bile sürekli veritabanına sorgu atmama gerek yok!
