@@ -14,6 +14,8 @@
 
 ### Kullanıcıyı Karşılayan Sayfa(Home/Index)
 
+- Home/Index sayfası
+
     ![IRepository](ReadmeScreenShots/HomeIndex.png)
 
 - Sayfada Duyurular ve Başvuruya Açılan Programlar olmak üzere iki bölüm bulunur.
