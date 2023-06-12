@@ -13,10 +13,6 @@ namespace GraduateAppProject.Infrastructure.Data
         public static void SeedDatabase(CitizensInfoApiDbContext dbContext, IConfiguration configuration)
         {
             SeedCitizen(dbContext, configuration);
-
-            //SeedReason(dbContext);
-            //SeedRole(dbContext);
-
         }
 
         private static void SeedCitizen(CitizensInfoApiDbContext dbContext, IConfiguration configuration)

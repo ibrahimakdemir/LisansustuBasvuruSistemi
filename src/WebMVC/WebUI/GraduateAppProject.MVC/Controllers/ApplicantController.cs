@@ -68,21 +68,21 @@ namespace GraduateAppProject.MVC.Controllers
 
         private async Task<ApplicantInformationsModel> GetApplicantInformationsModelAsync(int citizenId)
         {
-            var userIdentityInfo = await _userService.GetUserIdentityInformationDTOByCitizenIdAsync(citizenId);
-            var userAlesExamsInfo = await _userService.GetUserAlesExamDTOByCitizenIdAsync(citizenId);
-            var bachelorDegreesInfo = await _userService.GetUserBachelorDegreeDTOByCitizenIdAsync(citizenId);
-            var doctorateDegreesInfo = await _userService.GetUserDoctorateDegreeDTOByCitizenIdAsync(citizenId);
-            var masterDegreesInfo = await _userService.GetUserMasterDegreeDTOByCitizenIdAsync(citizenId);
-            var ydsExamsInfo = await _userService.GetUserYdsExamDTOByCitizenIdAsync(citizenId);
+            //var userIdentityInfo = await _userService.GetUserIdentityInformationDTOByCitizenIdAsync(citizenId);
+            //var userAlesExamsInfo = await _userService.GetUserAlesExamDTOByCitizenIdAsync(citizenId);
+            //var bachelorDegreesInfo = await _userService.GetUserBachelorDegreeDTOByCitizenIdAsync(citizenId);
+            //var doctorateDegreesInfo = await _userService.GetUserDoctorateDegreeDTOByCitizenIdAsync(citizenId);
+            //var masterDegreesInfo = await _userService.GetUserMasterDegreeDTOByCitizenIdAsync(citizenId);
+            //var ydsExamsInfo = await _userService.GetUserYdsExamDTOByCitizenIdAsync(citizenId);
 
             var infoModel = new ApplicantInformationsModel() 
             {
-                UserIdentityInformationDTO = userIdentityInfo,
-                UserAlesExamDTO =userAlesExamsInfo,
-                UserBachelorDegreeDTO = bachelorDegreesInfo,
-                UserDoctorateDegreeDTO = doctorateDegreesInfo,
-                UserMasterDegreeDTO = masterDegreesInfo,
-                UserYdsExamDTO = ydsExamsInfo
+                UserIdentityInformationDTO = await _userService.GetUserIdentityInformationDTOByCitizenIdAsync(citizenId),
+                UserAlesExamDTO = await _userService.GetUserAlesExamDTOByCitizenIdAsync(citizenId),
+                UserBachelorDegreeDTO = await _userService.GetUserBachelorDegreeDTOByCitizenIdAsync(citizenId),
+                UserDoctorateDegreeDTO = await _userService.GetUserDoctorateDegreeDTOByCitizenIdAsync(citizenId),
+                UserMasterDegreeDTO = await _userService.GetUserMasterDegreeDTOByCitizenIdAsync(citizenId),
+                UserYdsExamDTO = await _userService.GetUserYdsExamDTOByCitizenIdAsync(citizenId)
             };
             return infoModel;
 

@@ -66,10 +66,7 @@ namespace GraduateAppProject.WebMVC.Services
             throw new NotImplementedException();
         }
 
-        public IList<GraduateProgram> GetGraduateProgramWithInfo()
-        {
-            return _repository.GetGraduateProgramWithAllInfo();
-        }
+       
 
         public IEnumerable<AnnouncementDisplayResponse> GetAnnouncementDisplayResponses()
         {
@@ -83,6 +80,10 @@ namespace GraduateAppProject.WebMVC.Services
             var announcements = await _repository.GetAnnouncementsAsync();
             var response = announcements.ConvertToDisplayResponsesForAnnouncement(_mapper);
             return response;
+        }
+        public IList<GraduateProgram> GetGraduateProgramWithInfo()
+        {
+            return _repository.GetGraduateProgramWithAllInfo();
         }
 
         public IEnumerable<GraduateProgramDisplayResponse> GetGraduateProgramDisplayResponses()

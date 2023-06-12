@@ -43,6 +43,7 @@ namespace GraduateAppProject.MVC.Controllers
             if (ModelState.IsValid)
             {
                 await _graduateService.CreateNewGraduateProgramAsync(request);
+                _memoryCache.Remove("IndexPageModelData");
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.GraduateMajors = await GetGraduateMajorsForSelectList();

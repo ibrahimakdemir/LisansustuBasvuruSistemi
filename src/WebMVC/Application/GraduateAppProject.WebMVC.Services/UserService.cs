@@ -54,21 +54,11 @@ namespace GraduateAppProject.WebMVC.Services
             return userAlesExamDTO;
         }
 
-        public IList<UserBachelorDegreeDTO> GetUserBachelorDegreeDTOByCitizenId(int citizenId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IList<UserBachelorDegreeDTO>> GetUserBachelorDegreeDTOByCitizenIdAsync(int citizenId)
         {
             string endPoint = $"GetBachelorDegreesByCitizenId?id={citizenId}";
             var userBachelorDegreeDTO = await _httpClient.GetApiResponse<IList<UserBachelorDegreeDTO>>(endPoint);
             return userBachelorDegreeDTO;
-        }
-
-        public IList<UserDoctorateDegreeDTO> GetUserDoctorateDegreeDTOByCitizenId(int citizenId)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<IList<UserDoctorateDegreeDTO>> GetUserDoctorateDegreeDTOByCitizenIdAsync(int citizenId)
@@ -78,16 +68,38 @@ namespace GraduateAppProject.WebMVC.Services
             return userDoctorateDegreeDTO;
         }
 
-        public UserIdentityInformationDTO GetUserIdentityInformationDTOByCitizenId(int citizenId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<UserIdentityInformationDTO> GetUserIdentityInformationDTOByCitizenIdAsync(int citizenId)
         {
             string endPoint = $"GetIdentityInformationsByCitizenId?id={citizenId}";
             var userIdentityInformationDTO = await _httpClient.GetApiResponse<UserIdentityInformationDTO>(endPoint);
             return userIdentityInformationDTO;
+        }
+        public async Task<IList<UserMasterDegreeDTO>> GetUserMasterDegreeDTOByCitizenIdAsync(int citizenId)
+        {
+            string endPoint = $"GetMasterDegreesByCitizenId?id={citizenId}";
+            var userMasterDegreeDTO = await _httpClient.GetApiResponse<IList<UserMasterDegreeDTO>>(endPoint);
+            return userMasterDegreeDTO;
+        }
+
+        public async Task<IList<UserYdsExamDTO>> GetUserYdsExamDTOByCitizenIdAsync(int citizenId)
+        {
+            string endPoint = $"GetYdsExamsByCitizenId?id={citizenId}";
+            var userYdsExamsDTO = await _httpClient.GetApiResponse<IList<UserYdsExamDTO>>(endPoint);
+            return userYdsExamsDTO;
+        }
+
+        public UserIdentityInformationDTO GetUserIdentityInformationDTOByCitizenId(int citizenId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<UserBachelorDegreeDTO> GetUserBachelorDegreeDTOByCitizenId(int citizenId)
+        {
+            throw new NotImplementedException();
+        }
+        public IList<UserDoctorateDegreeDTO> GetUserDoctorateDegreeDTOByCitizenId(int citizenId)
+        {
+            throw new NotImplementedException();
         }
 
         public IList<UserMasterDegreeDTO> GetUserMasterDegreeDTOByCitizenId(int citizenId)
@@ -95,12 +107,7 @@ namespace GraduateAppProject.WebMVC.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IList<UserMasterDegreeDTO>> GetUserMasterDegreeDTOByCitizenIdAsync(int citizenId)
-        {
-            string endPoint = $"GetMasterDegreesByCitizenId?id={citizenId}";
-            var userMasterDegreeDTO = await _httpClient.GetApiResponse<IList<UserMasterDegreeDTO>>(endPoint);
-            return userMasterDegreeDTO;
-        }
+       
 
         public string GetUserRoleByCitizenId(int citizenId)
         {
@@ -121,12 +128,7 @@ namespace GraduateAppProject.WebMVC.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IList<UserYdsExamDTO>> GetUserYdsExamDTOByCitizenIdAsync(int citizenId)
-        {
-            string endPoint = $"GetYdsExamsByCitizenId?id={citizenId}";
-            var userYdsExamsDTO = await _httpClient.GetApiResponse<IList<UserYdsExamDTO>>(endPoint);
-            return userYdsExamsDTO;
-        }
+        
 
         public bool IsRegistered(int citizenId)
         {

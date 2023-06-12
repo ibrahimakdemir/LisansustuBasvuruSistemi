@@ -1,25 +1,25 @@
 ﻿@model CreateNewGraduateProgramRequest
 
 @{
-    ViewData["Title"] = "CreateGraduateProgram";
+    ViewData["Title"] = "Program Ekle";
 }
 
 <div class="container-fluid" style="margin-top:100px">
     <div class="rounded d-flex justify-content-center">
         <div class="col-md-4 col-sm-12 rounded rounded-4 shadow-lg  border border-1  p-5 bg-light">
             <div class="text-center">
-                <h3 class="text-success">Giriş</h3>
+                <h3 class="text-success">Program Ekle</h3>
             </div>
             <form asp-action="CreateGraduateProgram">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="GraduateMajorId" class="control-label">Anabilim Dalı</label>
                     <select asp-for="GraduateMajorId" class="form-control" asp-items="ViewBag.GraduateMajors">
                         <option hidden value="" disabled selected>Anabilim Dalını Seçiniz</option>
                     </select>
                     <span asp-validation-for="GraduateMajorId" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="WithThesis" class="control-label">Tez Durumu</label>
                     <select asp-for="WithThesis" class="form-control">
                         <option hidden value="" disabled selected></option>
@@ -28,14 +28,14 @@
                     </select>
                     <span asp-validation-for="WithThesis" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="LanguageId" class="control-label">Program Eğitim Dili</label>
                     <select asp-for="LanguageId" class="form-control" asp-items="ViewBag.Languages">
                         <option hidden value="" disabled selected>Programın Eğitim Dilini Seçiniz</option>
                     </select>
                     <span asp-validation-for="LanguageId" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="HasExamRequirement" class="control-label">Sınav Şartı Durumu</label>
                     <select asp-for="HasExamRequirement" class="form-control">
                         <option hidden value="" disabled selected>Sınav Şartı Var Mı?</option>
@@ -44,7 +44,7 @@
                     </select>
                     <span asp-validation-for="HasExamRequirement" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="HasMajorRequirement" class="control-label">Alan Şartı</label>
                     <select asp-for="HasMajorRequirement" class="form-control">
                         <option hidden value="" disabled selected>Alan Şartı Var Mı?</option>
@@ -53,12 +53,12 @@
                     </select>
                     <span asp-validation-for="HasMajorRequirement" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="InterviewDate" class="control-label">Mülakat Tarihi</label>
                     <input asp-for="InterviewDate" class="form-control" />
                     <span asp-validation-for="InterviewDate" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="IsInterviewRemote" class="control-label">Mülakat Durumu</label>
                     <select asp-for="IsInterviewRemote" class="form-control">
                         <option hidden value="" disabled selected>Mülakat Uzaktan Mı?</option>
@@ -67,24 +67,24 @@
                     </select>
                     <span asp-validation-for="IsInterviewRemote" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="OnlinePlatformId" class="control-label">Online Platform</label>
                     <select asp-for="OnlinePlatformId" class="form-control" asp-items="ViewBag.Platforms">
                         <option hidden value="" disabled selected>Online Mülakat Platformu Seçiniz</option>
                     </select>
                     <span asp-validation-for="OnlinePlatformId" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="InterviewPlace" class="control-label">Mülakat Yeri</label>
                     <input asp-for="InterviewPlace" class="form-control" />
                     <span asp-validation-for="InterviewPlace" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="Capacity" class="control-label">Kontenjan</label>
                     <input asp-for="Capacity" class="form-control" />
                     <span asp-validation-for="Capacity" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="Semester" class="control-label"></label>
                     <select asp-for="Semester" class="form-control">
                         <option hidden value="" disabled selected>Dönemi Seçiniz</option>
@@ -93,7 +93,7 @@
                     </select>
                     <span asp-validation-for="Semester" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-2">
                     <label asp-for="AcademicYear" class="control-label">Eğitim Yılı</label>
                     <input asp-for="AcademicYear" class="form-control" />
                     <span asp-validation-for="AcademicYear" class="text-danger"></span>
@@ -103,7 +103,7 @@
                     <input asp-for="Detail" class="form-control" />
                     <span asp-validation-for="Detail" class="text-danger"></span>
                 </div>
-                <div class="form-group mt-2 pt-2">
+                <div class="form-group mt-2">
                     <input type="submit" value="Ekle" class="btn btn-primary" />
                 </div>
             </form>

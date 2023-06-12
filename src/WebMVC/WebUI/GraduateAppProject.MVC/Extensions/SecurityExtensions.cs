@@ -24,7 +24,7 @@ namespace GraduateAppProject.MVC.Extensions
         {
             var key = configuration["EncryptKey:RandomKey"];
 
-            byte[] data = Convert.FromBase64String(hashedCitizenNumber); // decrypt the incrypted text
+            byte[] data = Convert.FromBase64String(hashedCitizenNumber);
             var returnVal = string.Empty;
 
             using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())

@@ -36,6 +36,21 @@ namespace GraduateAppProject.WebMVC.Repositories
             return announcements;
         }
 
+        public IList<GraduateProgram> GetGraduateProgramWithAllInfo()
+        {
+            var graduates = _dbContext.GraduatePrograms.Include(g => g.GraduateMajor)
+                                                      .Include(g => g.Language)
+                                                      .Include(g => g.OnlinePlatform).AsNoTracking().Where(g => g.IsActive)
+                                                      .ToList();
+            return graduates;
+        }
+
+        public async Task<IList<GraduateProgram>> GetGraduateProgramsAsync()
+        {
+            var graduates = await _dbContext.GraduatePrograms.AsNoTracking().Where(g => g.IsActive).ToListAsync();
+            return graduates;
+        }
+
         public IList<ApplicationsState> GetApplicationsStates()
         {
             throw new NotImplementedException();
@@ -64,11 +79,7 @@ namespace GraduateAppProject.WebMVC.Repositories
             return graduates;
         }
 
-        public async Task<IList<GraduateProgram>> GetGraduateProgramsAsync()
-        {
-            var graduates = await _dbContext.GraduatePrograms.AsNoTracking().Where(g => g.IsActive).ToListAsync();
-            return graduates;
-        }
+        
 
         public IList<HelpMessage> GetHelpMessages()
         {
@@ -264,14 +275,7 @@ namespace GraduateAppProject.WebMVC.Repositories
             throw new NotImplementedException();
         }
 
-        public IList<GraduateProgram> GetGraduateProgramWithAllInfo()
-        {
-            var graduates = _dbContext.GraduatePrograms.Include(g => g.GraduateMajor)
-                                                      .Include(g => g.Language)
-                                                      .Include(g => g.OnlinePlatform).Where(g => g.IsActive)
-                                                      .ToList();
-            return graduates;
-        }
+       
 
         public async Task CreateAsync(GraduateProgram graduateProgram)
         {

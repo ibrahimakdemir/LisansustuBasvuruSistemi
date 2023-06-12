@@ -23,7 +23,7 @@ namespace GraduateAppProject.WebMVC.Services.Extensions
             }
             else
             {
-                throw new Exception($"API request failed with status code: {response.StatusCode}");
+                throw new Exception($"API hatası: {response.StatusCode}");
             }
         }
     }

@@ -35,7 +35,7 @@ namespace GraduateAppProject.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             //For Login --> Password:123
-            //ViewData["Test"] = ("dUgGJkMwx1atrR+vwn+jkQ==").DecryptWithHash(_configuration);
+            ViewData["Test"] = ("dUgGJkMwx1atrR+vwn+jkQ==").DecryptWithHash(_configuration);
 
 
             //Burada cache'e attığım için kullanıcı tarafında bile sürekli veritabanına sorgu atmama gerek yok!
@@ -82,7 +82,14 @@ namespace GraduateAppProject.MVC.Controllers
             return View(loginModel);
         }
 
-        
+        private async Task<int> GetUserCitizenId(LoginModel loginModel)
+        {
+            var citizenNumber = loginModel.CitizenNumber.ToString().EncryptWithHash(_configuration);
+            var password = loginModel.Password.ToString().EncryptWithHash(_configuration);
+            var userCitizenId = await _userService.CheckUserAsync(citizenNumber, password);
+            return userCitizenId;
+        }
+
 
         public IActionResult Register()
         {
@@ -145,13 +152,6 @@ namespace GraduateAppProject.MVC.Controllers
 
         }
 
-        private async Task<int> GetUserCitizenId(LoginModel loginModel)
-        {
-            var citizenNumber = loginModel.CitizenNumber.ToString().EncryptWithHash(_configuration);
-            var password = loginModel.Password.ToString().EncryptWithHash(_configuration);
-            var userCitizenId = await _userService.CheckUserAsync(citizenNumber, password);
-            return userCitizenId;
-        }
 
 
         public IActionResult Privacy()
