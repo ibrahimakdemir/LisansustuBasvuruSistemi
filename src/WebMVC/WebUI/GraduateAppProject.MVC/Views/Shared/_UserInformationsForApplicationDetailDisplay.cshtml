@@ -1,0 +1,133 @@
+﻿@model ApplicantInfoAndAppliedProgramModel
+<div class="container rounded rounded-4 shadow-lg border border-1 p-2 bg-white" style="margin-top:50px">
+    <h3 class="text-center text-success fw-bold mt-4">ADAY BİLGİLERİ</h3>
+    <ul class="nav nav-tabs m-5 justify-content-center border-success" id="ex-with-icons" role="tablist">
+        <li class="nav-item border-success" role="presentation">
+            <a class="nav-link active" id="ex-with-icons-tab-1" data-bs-toggle="tab" href="#ex-with-icons-tabs-1" role="tab"
+               aria-controls="ex-with-icons-tabs-1" aria-selected="true"><i class="bi bi-person-vcard-fill m-2"></i>Kimlik ve İletişim Bilgileri</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="ex-with-icons-tab-2" data-bs-toggle="tab" href="#ex-with-icons-tabs-2" role="tab"
+               aria-controls="ex-with-icons-tabs-2" aria-selected="false"><i class="bi bi-mortarboard-fill m-2"></i>Eğitim Bilgileri</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="ex-with-icons-tab-3" data-bs-toggle="tab" href="#ex-with-icons-tabs-3" role="tab"
+               aria-controls="ex-with-icons-tabs-3" aria-selected="false"><i class="bi bi-newspaper m-2"></i>Sınav Bilgileri</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="ex-with-icons-tab-4" data-bs-toggle="tab" href="#ex-with-icons-tabs-4" role="tab"
+               aria-controls="ex-with-icons-tabs-4" aria-selected="false"><i class="bi bi-newspaper m-2"></i>Başvuru</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="ex-with-icons-content">
+        <div class="tab-pane fade show active" id="ex-with-icons-tabs-1" role="tabpanel" aria-labelledby="ex-with-icons-tab-1">
+            <div class="container col-lg-8 rounded bg-white mb-5 shadow-lg">
+                <div class="row">
+                    <h3 class="text-center text-success mt-2">Kimlik ve İletişim Bilgileri</h3>
+                    <div class="col-md-4 d-flex align-items-center justify-content-center">
+                        @if (Model.ApplicantInformationsModel.UserIdentityInformationDTO.PhotoURL == null)
+                        {
+                            <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" class="rounded-circle mt-5" width="150px" alt="profile picture">
+                        }
+                        else
+                        {
+                            <img src="@Model.ApplicantInformationsModel.UserIdentityInformationDTO.PhotoURL" class="card-img-top" alt="profile picture">
+                        }
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="p-3 py-5">
+                            <div class="row mt-2">
+                                <div class="col-md-6 mb-2"><label class="labels">Ad</label><input type="text" class="form-control " placeholder="Ad" value="@Model.ApplicantInformationsModel.UserIdentityInformationDTO.FirstName" readonly></div>
+                                <div class="col-md-6 mb-2"><label class="labels">Soyad</label><input type="text" class="form-control" value="@Model.ApplicantInformationsModel.UserIdentityInformationDTO.LastName" placeholder="Soyad" readonly></div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12 mb-2"><label class="labels">T.C. Kimlik Numarası</label><input type="text" class="form-control read" placeholder="T.C. Kimlik Numarası" value="(@Model.ApplicantInformationsModel.UserIdentityInformationDTO.CitizenNumber)" readonly></div>
+                                <div class="col-md-6 mb-2"><label class="labels">Anne Adı</label><input type="text" class="form-control" placeholder="Anne Adı" value="@Model.ApplicantInformationsModel.UserIdentityInformationDTO.MotherName" readonly></div>
+                                <div class="col-md-6 mb-2"><label class="labels">Baba Adı</label><input type="text" class="form-control" placeholder="Baba Adı" value="@Model.ApplicantInformationsModel.UserIdentityInformationDTO.FatherName" readonly></div>
+                                <div class="col-md-6 mb-2"><label class="labels">Doğum Tarihi</label><input type="text" class="form-control" placeholder="Doğum Tarihi" value="@Model.ApplicantInformationsModel.UserIdentityInformationDTO.BirthDate" readonly></div>
+                                <div class="col-md-6 mb-2"><label class="labels">Doğum Yeri</label><input type="text" class="form-control" placeholder="Doğum Yeri" value="@Model.ApplicantInformationsModel.UserIdentityInformationDTO.BirthPlace" readonly></div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="labels mb-2">E-Posta Adresi</label>
+                                    <input type="text" class="form-control " placeholder="E-Posta Adresi" asp-for="ApplicantInformationsModel.UserContactInformationDTO.Email" value="@Model.ApplicantInformationsModel.UserContactInformationDTO.Email" readonly>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="labels mb-2">Telefon Numarası</label>
+                                    <input type="text" class="form-control" value="@Model.ApplicantInformationsModel.UserContactInformationDTO.PhoneNumber" asp-for="ApplicantInformationsModel.UserContactInformationDTO.PhoneNumber" placeholder="Telefon Numarası" readonly>
+                                </div>
+                                <div class="col-md-12 mb-2">
+                                    <label class="labels mb-2">Adres</label>
+                                    <textarea class="form-control" value="@Model.ApplicantInformationsModel.UserContactInformationDTO.Address" asp-for="ApplicantInformationsModel.UserContactInformationDTO.Address" placeholder="Adres" readonly></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="tab-pane fade justify-content-center" id="ex-with-icons-tabs-2" role="tabpanel" aria-labelledby="ex-with-icons-tab-2">
+            <div class="d-lg-flex flex-lg-column mb-5 p-5 align-items-start">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="nav flex-lg-column nav-pills m-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <button class="nav-link m-2 active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Lisans</button>
+                            <button class="nav-link m-2" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Yüksek Lisans</button>
+                            <button class="nav-link m-2" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Doktora</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="tab-content table-responsive m-2" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                <partial name="_UserBachelorDegreesInformationsDisplay" model="Model.ApplicantInformationsModel.UserBachelorDegreeDTO"></partial>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                <partial name="_UserMasterDegreesInformationsDisplay" model="Model.ApplicantInformationsModel.UserMasterDegreeDTO"></partial>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                                <partial name="_UserDoctorateDegreeInformationsDisplay" model="Model.ApplicantInformationsModel.UserDoctorateDegreeDTO"></partial>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade row" id="ex-with-icons-tabs-3" role="tabpanel" aria-labelledby="ex-with-icons-tab-3">
+            <div class="col mb-5">
+                <partial name="_UserAlesExamDisplay" model="Model.ApplicantInformationsModel.UserAlesExamDTO"></partial>
+            </div>
+            <div class="col">
+                <partial name="_UserYdsExamDisplay" model="Model.ApplicantInformationsModel.UserYdsExamDTO"></partial>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="ex-with-icons-tabs-4" role="tabpanel" aria-labelledby="ex-with-icons-tab-4">
+            @{
+                ViewData["Reasons"] = ViewData["ReasonsList"];
+                ViewData["UserId"] = Model.ApplicantInformationsModel.UserIdentityInformationDTO.Id;
+            }
+            <partial name="_ApplicationReviewDisplay" model="@Model.GraduateProgram" view-data="ViewData"></partial>
+            
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts{
+    <script>
+        var tabs = new bootstrap.Tab(document.getElementById('ex-with-icons'));
+        $(document).ready(function () {
+            $('.nav-link').click(function () {
+                tabs.show($(this).attr('href'));
+            });
+            $('.documentBtn').click(function () {
+                var imgUrl = $(this).data('url');
+                var imgHtml = '<img src="' + imgUrl + '" class="img-fluid" />';
+                alertify.alert(imgHtml).set('moveable', false).set('basic', true);
+            });
+        });
+    </script>
+
+}

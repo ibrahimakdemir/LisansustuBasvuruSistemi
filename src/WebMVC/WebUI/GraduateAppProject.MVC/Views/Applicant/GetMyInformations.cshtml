@@ -1,0 +1,91 @@
+﻿@model ApplicantInformationsModel
+<div class="container rounded rounded-4 shadow-lg border border-1 p-2 bg-white" style="margin-top:50px">
+    <h3 class="text-center text-success fw-bold mt-4">BİLGİLERİM</h3>
+    <ul class="nav nav-tabs m-5 justify-content-center border-success" id="ex-with-icons" role="tablist">
+        <li class="nav-item border-success" role="presentation">
+            <a class="nav-link active" id="ex-with-icons-tab-1" data-bs-toggle="tab" href="#ex-with-icons-tabs-1" role="tab"
+               aria-controls="ex-with-icons-tabs-1" aria-selected="true"><i class="bi bi-person-vcard-fill m-2"></i>Kimlik Bilgilerim</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="ex-with-icons-tab-2" data-bs-toggle="tab" href="#ex-with-icons-tabs-2" role="tab"
+               aria-controls="ex-with-icons-tabs-2" aria-selected="true"><i class="bi bi-telephone-forward-fill m-2"></i>İletişim Bilgilerim</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="ex-with-icons-tab-3" data-bs-toggle="tab" href="#ex-with-icons-tabs-3" role="tab"
+               aria-controls="ex-with-icons-tabs-3" aria-selected="false"><i class="bi bi-mortarboard-fill m-2"></i>Eğitim Bilgilerim</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="ex-with-icons-tab-4" data-bs-toggle="tab" href="#ex-with-icons-tabs-4" role="tab"
+               aria-controls="ex-with-icons-tabs-4" aria-selected="false"><i class="bi bi-newspaper m-2"></i>Sınav Bilgilerim</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="ex-with-icons-content">
+        <div class="tab-pane fade show active" id="ex-with-icons-tabs-1" role="tabpanel" aria-labelledby="ex-with-icons-tab-1">
+            <partial name="_UserIdentityInformationsDisplay" model="Model.UserIdentityInformationDTO"></partial>
+        </div>
+        <div class="tab-pane fade" id="ex-with-icons-tabs-2" role="tabpanel" aria-labelledby="ex-with-icons-tab-2">
+            <partial name="_UserContactInformationsDisplay" model="Model.UserContactInformationDTO"></partial>
+        </div>
+        <div class="tab-pane fade justify-content-center" id="ex-with-icons-tabs-3" role="tabpanel" aria-labelledby="ex-with-icons-tab-3">
+            <div class="d-lg-flex flex-lg-column mb-5 p-5 align-items-start">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="nav flex-lg-column nav-pills m-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <button class="nav-link m-2 active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Lisans</button>
+                            <button class="nav-link m-2" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Yüksek Lisans</button>
+                            <button class="nav-link m-2" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Doktora</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="tab-content table-responsive m-2" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                <partial name="_UserBachelorDegreesInformationsDisplay" model="Model.UserBachelorDegreeDTO"></partial>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                <partial name="_UserMasterDegreesInformationsDisplay" model="Model.UserMasterDegreeDTO"></partial>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                                <partial name="_UserDoctorateDegreeInformationsDisplay" model="Model.UserDoctorateDegreeDTO"></partial>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            @*<partial name="_UserBachelorDegreesInformationsDisplay" model="Model.UserBachelorDegreeDTO"></partial>
+            <partial name="_UserMasterDegreesInformationsDisplay" model="Model.UserMasterDegreeDTO"></partial>
+            <partial name="_UserDoctorateDegreeInformationsDisplay" model="Model.UserDoctorateDegreeDTO"></partial>*@
+        </div>
+        <div class="tab-pane fade row" id="ex-with-icons-tabs-4" role="tabpanel" aria-labelledby="ex-with-icons-tab-4">
+            <div class="col mb-5">
+                <partial name="_UserAlesExamDisplay" model="Model.UserAlesExamDTO"></partial>
+            </div>
+            <div class="col">
+                <partial name="_UserYdsExamDisplay" model="Model.UserYdsExamDTO"></partial>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts{
+    <script>
+        var tabs = new bootstrap.Tab(document.getElementById('ex-with-icons'));
+        $(document).ready(function () {
+            $('.nav-link').click(function () {
+                tabs.show($(this).attr('href'));
+            });
+            $('.documentBtn').click(function () {
+                var imgUrl = $(this).data('url');
+                var imgHtml = '<img src="' + imgUrl + '" class="img-fluid" />';
+                alertify.alert(imgHtml).set('moveable', false).set('basic', true);
+            });
+        });
+    </script>
+
+}

@@ -1,0 +1,46 @@
+﻿@model UserIdentityInformationDTO
+
+<div class="container col-8 rounded bg-white mb-5 shadow-lg">
+    <form asp-action="UpdatePhoto" asp-controller="Applicant" enctype="multipart/form-data">
+        <div class="row">
+            <h3 class="text-center text-success mt-2">Kimlik Bilgilerim</h3>
+
+            <div class="col-md-4">
+                @if (Model.PhotoURL == null)
+                {
+                    <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" class="rounded-circle mt-5" width="150px" alt="profile picture">
+                }
+                else
+                {
+                    <img src="@Model.PhotoURL" class="card-img-top" alt="profile picture">
+                }
+                <div class="justify-content-center">
+                    <input type="file" name="photoFile" class="form-control-file" onchange="previewPhoto(event)" />
+                    <button class="btn btn-success profile-button" type="submit">Güncelle</button>
+                </div>
+
+            </div>
+
+            <div class="col-md-8">
+                <div class="p-3 py-5">
+                    <div class="row mt-2">
+                        <div class="col-md-6 mb-2"><label class="labels">Ad</label><input type="text" class="form-control " placeholder="Ad" value="@Model.FirstName" readonly></div>
+                        <div class="col-md-6 mb-2"><label class="labels">Soyad</label><input type="text" class="form-control" value="@Model.LastName" placeholder="Soyad" readonly></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12 mb-2"><label class="labels">T.C. Kimlik Numarası</label><input type="text" class="form-control read" placeholder="T.C. Kimlik Numarası" value="@Model.CitizenNumber" readonly></div>
+                        <div class="col-md-6 mb-2"><label class="labels">Anne Adı</label><input type="text" class="form-control" placeholder="Anne Adı" value="@Model.MotherName" readonly></div>
+                        <div class="col-md-6 mb-2"><label class="labels">Baba Adı</label><input type="text" class="form-control" placeholder="Baba Adı" value="@Model.FatherName" readonly></div>
+                        <!--Burada decrypted citizen number gösterilmelidir.-->
+                        <div class="col-md-6 mb-2"><label class="labels">Doğum Tarihi</label><input type="text" class="form-control" placeholder="Doğum Tarihi" value="@Model.BirthDate.ToString("dd/MM/yyyy")" readonly></div>
+                        <div class="col-md-6 mb-2"><label class="labels">Doğum Yeri</label><input type="text" class="form-control" placeholder="Doğum Yeri" value="@Model.BirthPlace" readonly></div>
+                    </div>
+                    <div class="justify-content-end">
+                        <p class="text-right text-muted">Hatalı bilgileriniz varsa bize bildiriniz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

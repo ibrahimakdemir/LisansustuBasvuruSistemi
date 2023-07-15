@@ -1,0 +1,82 @@
+﻿@model List<UserBachelorDegreeDTO>
+
+<div class="container-fluid">
+    <div class="rounded justify-content-center">
+        <div class="shadow-lg bg-white rounded rounded-3">
+            <div class="text-center table-responsive">
+                <h3 class="text-success mt-2">Lisans Eğitim Bilgilerim</h3>
+                <div class="p-2  table-responsive">
+                    <table class="table table-light border border-1 text-start table-sm">
+                        <thead>
+                            <tr>
+                                <th>Diploma</th>
+                                <th>Transkript</th>
+                                <th>
+                                    Üniversite
+                                </th>
+                                <th>
+                                    Fakülte
+                                </th>
+                                <th>
+                                    Bölüm
+                                </th>
+                                <th>
+                                    Eğitim Dili
+                                </th>
+                                <th>
+                                    Not Türü
+                                </th>
+                                <th>
+                                    Diploma Notu
+                                </th>
+                                <th>
+                                    Başlangıç Yılı
+                                </th>
+                                <th>
+                                    Bitiş Yılı
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-sm btn-success documentBtn" data-url="@item.DiplomaUrl" data-header="Doktora Diploması">Göster</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary documentBtn" data-url="@item.TranscriptUrl" data-header="Transkript Belgesi">Göster</button>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DepartmentId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DepartmentId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DepartmentId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LanguageId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.GradeType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DegreeGrade)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StartDate.Year)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EndDate.Year)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
