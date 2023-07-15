@@ -17,6 +17,7 @@ builder.Services.AddScoped<ICitizenService, CitizenService>();
 builder.Services.AddScoped<ICitizenInformationService, CitizenInformationService>();
 builder.Services.AddScoped<ICitizenRepository, EFCitizenRepository>();
 builder.Services.AddScoped<ICitizenInformationRepository, EFCitizenInformationRepository>();
+
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
 
@@ -47,12 +48,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<CitizensInfoApiDbContext>();
 var configuration = services.GetRequiredService<IConfiguration>();
 //context.Database.EnsureCreated(); --> Because dbfirst is used
 DbSeeding.SeedDatabase(context, configuration);
+
 
 app.UseHttpsRedirection();
 app.UseCors("allow");
@@ -61,3 +64,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

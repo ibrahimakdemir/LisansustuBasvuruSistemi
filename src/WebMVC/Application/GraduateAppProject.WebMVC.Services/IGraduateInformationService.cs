@@ -20,6 +20,9 @@ namespace GraduateAppProject.WebMVC.Services
         public Task<GraduateProgramWithAllInfoModel> GetGraduateProgramInformationsModelByProgramAsync(GraduateProgram program);
         public GraduateProgramWithAllInfoModel GetGraduateProgramInformationsModelByProgram(GraduateProgram program);
         IList<GraduateProgram> GetGraduateProgramWithInfo();
+        Task<IList<GraduateProgram>> GetGraduateProgramWithInfoAsync();
+        GraduateProgram GetGraduateProgramWithInfoByProgramId(int id);
+        Task<GraduateProgram> GetGraduateProgramWithInfoByProgramIdAsync(int id);
 
         public IEnumerable<AnnouncementDisplayResponse> GetAnnouncementDisplayResponses();
         public Task<IEnumerable<AnnouncementDisplayResponse>> GetAnnouncementDisplayResponsesAsync();
@@ -32,6 +35,10 @@ namespace GraduateAppProject.WebMVC.Services
         IList<Language> GetLanguages();
         Task<IList<OnlinePlatform>> GetPlatformsAsync();
         IList<OnlinePlatform> GetPlatforms();
+        Task DeleteGraduateProgramByProgramIdAsync(int programId);
+        Task<IList<UsersApplication>> GetApplicationByProgramIdAsync(int programId);
+        Task EvaluateUserApplicationAsync(UsersApplication application);
+        Task<IList<Reason>> GetReasonsAsync();
     }
 }
 

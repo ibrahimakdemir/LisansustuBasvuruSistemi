@@ -11,22 +11,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(typeof(MapProfile));
 builder.Services.AddHttpClient();
 
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt => 
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
 {
-    opt.Cookie.Name = "NetCoreMvc.Auth";
-    opt.LoginPath = "/Home/Login";
-    opt.AccessDeniedPath = "/Home/AccessDeniedPage";
+    opt.Cookie.Name = "NetCoreMvc.Auth";  // Sets the name of the cookie used for authentication
+    opt.LoginPath = "/Home/Login";  // Sets the path for the login page
+    opt.AccessDeniedPath = "/Home/AccessDeniedPage";  // Sets the path for the access denied page
 });
 
 builder.Services.AddSession(option =>
 {
-    option.IdleTimeout = TimeSpan.FromMinutes(15);
+    option.IdleTimeout = TimeSpan.FromMinutes(15);  // Sets the idle timeout duration for sessions
 });
 
 
@@ -58,7 +59,6 @@ DbSeeding.SeedDatabase(context, configuration);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseSession();
 app.UseAuthentication();

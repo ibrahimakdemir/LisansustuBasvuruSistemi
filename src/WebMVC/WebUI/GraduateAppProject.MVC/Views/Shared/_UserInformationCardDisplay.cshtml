@@ -1,23 +1,31 @@
-﻿<div class="card min-vh-100 border border-bottom-0" style="width:fit-content;background-color:#476662">
-    <img src="https://xsgames.co/randomusers/assets/avatars/male/78.jpg" class="card-img-top" alt="profile picture">
+﻿@model UserIdentityInformationDTO
+<div class="card min-vh-100 border border-bottom-0" style="width:fit-content;background-color:#476662">
+    @if (Model.PhotoURL == null)
+    {
+        <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" class="card-img-top rounded-circle" alt="profile picture">
+    }
+    else
+    {
+        <img src="@Model.PhotoURL" class="card-img-top" alt="profile picture">
+    }
     <div class="card-body">
         <table class="table text-light ">
             <tbody>
                 <tr>
                     <td>Name</td>
-                    <td>Ali</td>
+                    <td>@Model.FirstName</td>
                 </tr>
                 <tr>
                     <td>Soyadı</td>
-                    <td>Akdemir</td>
+                    <td>@Model.LastName</td>
                 </tr>
                 <tr>
                     <td>TC</td>
-                    <td>321312312312</td>
+                    <td>@Model.CitizenNumber</td>
                 </tr>
                 <tr>
                     <td>Doğum Yılı</td>
-                    <td>1992</td>
+                    <td>@Model.BirthDate.ToString("dd/MM/yyyy")</td>
                 </tr>
             </tbody>
         </table>

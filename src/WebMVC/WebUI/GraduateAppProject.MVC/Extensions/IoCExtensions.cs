@@ -13,6 +13,8 @@ namespace GraduateAppProject.MVC.Extensions
             services.AddScoped<IUserRepository, EFUserRepository>();
             services.AddScoped<IGraduateInformationService, GraduateInformationService>();
             services.AddScoped<IGraduateInformationRepository, EFGraduateInformationRepository>();
+            services.AddScoped<IMailService, MailService>();
+            services.AddScoped<IMailRepository, MailRepository>();
             services.AddDbContext<GraduateAppDbContext>(option => option.UseSqlServer(connectionString));
             return services;
 

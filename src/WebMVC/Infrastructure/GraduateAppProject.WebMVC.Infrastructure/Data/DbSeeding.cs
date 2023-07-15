@@ -2,6 +2,7 @@
 using Bogus;
 using GraduateAppProject.Entities;
 using GraduateAppProject.WebMVC.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace GraduateAppProject.WebMVC.Infrastructure.Data
     {
         public static void SeedDatabase(GraduateAppDbContext dbContext, IConfiguration configuration)
         {
-
+            
             SeedAnnouncement(dbContext);
             SeedApplicationState(dbContext);
             SeedOnlinePlatform(dbContext);
@@ -26,8 +27,35 @@ namespace GraduateAppProject.WebMVC.Infrastructure.Data
             SeedInstitute(dbContext);
             SeedGraduateMajor(dbContext);
             SeedGraduateProgram(dbContext);
+            SeedAdmin(dbContext);
 
+        }
 
+        private static void SeedAdmin(GraduateAppDbContext dbContext)
+        {
+            if (!dbContext.Users.Any())
+            {
+                var admin = new User()
+                {
+                    CitizenId = 25,
+                    CitizenNumber = "VhwrcVkRa+41v3otU1vUFg==",
+                    IsAdmin = true,
+                    Password = "Lv3rRiDoAio=",
+                    Email = "admin@gmail.com"
+
+                };
+                
+                dbContext.Users.Add(admin);
+                dbContext.SaveChanges();
+                dbContext.UsersRoles.Add(new UsersRole()
+                {
+                    UserId = admin.Id,
+                    RoleId = 2,
+                    GraduateProgramId = 1,
+                    IsActive = true
+                });
+                dbContext.SaveChanges();
+            }
         }
 
         private static void SeedGraduateProgram(GraduateAppDbContext dbContext)

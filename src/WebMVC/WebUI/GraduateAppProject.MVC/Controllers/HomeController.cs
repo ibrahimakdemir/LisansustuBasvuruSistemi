@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace GraduateAppProject.MVC.Controllers
 {
@@ -22,15 +23,22 @@ namespace GraduateAppProject.MVC.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memoryCache;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMailService _mailService;
 
 
-        public HomeController(IUserService userService, ILogger<HomeController> logger, IConfiguration configuration, IGraduateInformationService graduateInformationService, IMemoryCache memoryCache)
+
+        public HomeController(IUserService userService, ILogger<HomeController> logger, IConfiguration configuration
+                            , IGraduateInformationService graduateInformationService, IMemoryCache memoryCache, IHttpContextAccessor httpContextAccessor
+                            , IMailService mailService)
         {
             _userService = userService;
             _logger = logger;
             _configuration = configuration;
             _graduateService = graduateInformationService;
             _memoryCache = memoryCache;
+            _httpContextAccessor = httpContextAccessor;
+            _mailService = mailService;
         }
         [AllowAnonymous]
         public async Task<IActionResult> Index()
@@ -54,13 +62,15 @@ namespace GraduateAppProject.MVC.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimIdentity), authProperties);
 
             //For Login --> Password:123
-            ViewData["Test"] = ("f12TZfT4Fn/pi3H8AfxXAQ==").DecryptWithHash(_configuration);
-            //ViewData["Test"] = ("dUgGJkMwx1atrR+vwn+jkQ==").DecryptWithHash(_configuration);
+            ViewData["Admin"] = ("VhwrcVkRa+41v3otU1vUFg==").DecryptWithHash(_configuration);
+            ViewData["Aday"] = ("f12TZfT4Fn/pi3H8AfxXAQ==").DecryptWithHash(_configuration);
+
 
 
             //Burada cache'e attığım için kullanıcı tarafında bile sürekli veritabanına sorgu atmama gerek yok!
             //Ayrıca announcement veya graduate program'lar ile ilgili bir veri değişikliği söz konusu ise
             //o veri değişikliği yapıldığında memorycache içindeki bu bilgi de silinmelidir ki gelen ilk istekte güncel veri cache'e eklenmiş olsun!
+            
             var indexPageModel = await CachingExtensions.GetIndexPageModelFromCacheOrDb(_graduateService, _memoryCache, _logger);
 
             ViewBag.Index = indexPageModel.Announcements.Count();
@@ -100,11 +110,16 @@ namespace GraduateAppProject.MVC.Controllers
                     var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties();
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimIdentity), authProperties);
+
+
+                    var userId = await _userService.GetUserIdByCitizenIdAsync(userCitizenId);
+                    _httpContextAccessor.HttpContext.Session.SaveToSession("UserId", userId);
+
                     if (userRole == "Admin")
                     {
-                        return RedirectToAction("Index", "Admin", new { id = userCitizenId }); //Session kullan
+                        return RedirectToAction("Index", "Admin", new { id = userId }); //Session kullan
                     }
-                    return RedirectToAction("Index", "Applicant", new { id = userCitizenId });
+                    return RedirectToAction("Index", "Applicant", new { id = userId });
                 }
                 ModelState.AddModelError(string.Empty, "T.C. Kimlik Numarası/ Şifre Yanlış Veya Sisteme Kayıtlı Değilsiniz!");
             }
@@ -194,9 +209,6 @@ namespace GraduateAppProject.MVC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
-
-
         [AllowAnonymous]
         public IActionResult Help()
         {
@@ -206,7 +218,36 @@ namespace GraduateAppProject.MVC.Controllers
             }
             return View();
         }
-        
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Help(CreateNewMailRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                if (request.IsRegistered)
+                {
+                    var userId = JsonSerializer.Deserialize<int>(_httpContextAccessor.HttpContext.Session.GetString("UserId"));
+                    request.SenderId = userId;
+                    var citizenId = await _userService.GetCitizenIdByUserIdAsync(userId);
+                    var userContact = await _userService.GetUserContactInformationDTOByCitizenIdAsync(citizenId);
+                    var userIdentity = await _userService.GetUserIdentityInformationDTOByCitizenIdAsync(citizenId);
+                    request.GuestFirstName = userIdentity.FirstName;
+                    request.GuestLastName = userIdentity.LastName;
+                    request.GuestMailAddress = userContact.Email;
+                }
+
+                await _mailService.SaveMailAsync(request);
+                ViewData["Sonuc"] = "Mesajınız Başarılı Bir Şekilde İletilmiştir. En Kısa Zamanda Sizinle Mail Yoluyla İletişime Geçilecektir.";
+                if (request.IsRegistered)
+                {
+                    return RedirectToAction("Index", "Applicant");
+                }
+                return View();
+            }
+            return View(ModelState);
+        }
+
         [AllowAnonymous]
         public IActionResult AccessDeniedPage()
         {
@@ -223,5 +264,16 @@ namespace GraduateAppProject.MVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> AnnouncementsDetail(int id)
+        {
+            var indexPageModel = await CachingExtensions.GetIndexPageModelFromCacheOrDb(_graduateService, _memoryCache, _logger);
+
+            var announcement = indexPageModel.Announcements.FirstOrDefault(a => a.Id == id);
+            return View(announcement);
+
+        }
+
     }
 }

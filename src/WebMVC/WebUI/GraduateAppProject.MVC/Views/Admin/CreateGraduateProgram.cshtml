@@ -4,7 +4,7 @@
     ViewData["Title"] = "Program Ekle";
 }
 
-<div class="container-fluid" style="margin-top:100px">
+<div class="container-fluid" style="margin-top:50px">
     <div class="rounded d-flex justify-content-center">
         <div class="col-md-4 col-sm-12 rounded rounded-4 shadow-lg  border border-1  p-5 bg-light">
             <div class="text-center">
@@ -22,7 +22,7 @@
                 <div class="form-group mt-2">
                     <label asp-for="WithThesis" class="control-label">Tez Durumu</label>
                     <select asp-for="WithThesis" class="form-control">
-                        <option hidden value="" disabled selected></option>
+                        <option hidden value="" disabled selected>Tez Durumunu Seçiniz</option>
                         <option value="true">Tezli</option>
                         <option value="false">Tezsiz</option>
                     </select>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Detail" class="control-label">Detaylar</label>
-                    <input asp-for="Detail" class="form-control" />
+                    <textarea asp-for="Detail" rows="5" class="form-control"></textarea>
                     <span asp-validation-for="Detail" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-2">

@@ -19,18 +19,12 @@ namespace GraduateAppProject.WebMVC.Infrastructure.Data
         public DbSet<InformationsUpdate> InformationsUpdates { get; set; }
         public DbSet<OnlinePlatform> OnlinePlatforms { get; set; }
         public DbSet<Reason> Reasons { get; set; }
-        public DbSet<Receipt> Receipts { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UsersApplication> UsersApplications { get; set; }
         public DbSet<UsersLogin> UsersLogins { get; set; }
         public DbSet<UsersRole> UsersRoles { get; set; }
         public DbSet<YdsExamsRequirement> YdsExamsRequirements { get; set; }
 
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("Server=AKDEMIR-DESKTOP\\SQLEXPRESS;Database=GraduateAppDB;Trusted_Connection=True;TrustServerCertificate=True;");
-        //}
         public GraduateAppDbContext(DbContextOptions<GraduateAppDbContext> options) : base(options)
         {
 

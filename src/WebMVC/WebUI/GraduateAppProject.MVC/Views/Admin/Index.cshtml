@@ -1,4 +1,5 @@
-﻿@model IEnumerable<GraduateProgram>
+﻿@using System.Globalization;
+@model IEnumerable<GraduateProgram>
 
 @{
     ViewData["Title"] = "Açılan Programlar";
@@ -6,7 +7,7 @@
 
 
 
-<div class="col-md-12 col-xl-12 justify-content-center" style="margin-top:100px">
+<div class="col-md-12 col-xl-12 justify-content-center" style="margin-top:50px">
     <div class="container mt-5">
         <div class="">
             <div class="rounded rounded-4 shadow-lg  border border-1  p-2 bg-white">
@@ -16,100 +17,106 @@
                 </div>
                 <br />
 
-                <div class="text-start m-2 p-2">
+                <div class="text-start m-2">
                     <a asp-action="CreateGraduateProgram" class="btn btn-primary">Yeni Program Ekle</a>
                 </div>
-                <div class=" rounded rounded-4 border border-3 min-vh-100 shadow-lg">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Graduate Major
-                                </th>
-                                <th>
-                                    Thesis
-                                </th>
-                                <th>
-                                    Eğitim Dili
-                                </th>
-                                <th>
-                                    Mülakat Tarihi
-                                </th>
-                                <th>
-                                    Mülakat Yeri
-                                </th>
-                                <th>
-                                    Kontenjan
-                                </th>
-                                <th>
-                                    Dönem
-                                </th>
-                                <th>
-                                    Yıl
-                                </th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
+                @if (Model.Count() != 0)
+                {
+                    <div class=" rounded rounded-4 border border-1 shadow-lg table-responsive">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.GraduateMajor.GraduateMajorName)
-                                    </td>
-                                    <td>
-                                        @if (item.WithThesis)
-                                        {
-                                            <span>Tezli</span>
-                                        }
-                                        else
-                                        {
-                                            <span>Tezsiz</span>
-                                        }
-                                    </td>
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Language.LanguageName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.InterviewDate)
-                                    </td>
-                                    <td>
-                                        @if (item.IsInterviewRemote)
-                                        {
-                                            @Html.DisplayFor(modelItem => item.OnlinePlatform.PlatformName)
-                                        }
-                                        else
-                                        {
-                                            @Html.DisplayFor(modelItem => item.InterviewPlace)
-                                        }
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Capacity)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Semester)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.AcademicYear)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" class="btn btn-primary">Güncelle</a>
-                                    </td>
-                                    <td>
-
-                                        <a asp-action="Details" class="btn btn-primary">Detay</a>
-                                    </td>
-                                    <td>
-                                        <a asp-action="Delete" class="btn btn-primary">Sil</a>
-                                    </td>
+                                    <th>
+                                        Anabilim Dalı
+                                    </th>
+                                    <th>
+                                        Tez Durumu
+                                    </th>
+                                    <th>
+                                        Eğitim Dili
+                                    </th>
+                                    <th>
+                                        Mülakat Tarihi
+                                    </th>
+                                    <th>
+                                        Mülakat Yeri
+                                    </th>
+                                    <th>
+                                        Kontenjan
+                                    </th>
+                                    <th>
+                                        Dönem
+                                    </th>
+                                    <th>
+                                        Yıl
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.GraduateMajor.GraduateMajorName)
+                                        </td>
+                                        <td>
+                                            @if (item.WithThesis)
+                                            {
+                                                <span>Tezli</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Tezsiz</span>
+                                            }
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Language.LanguageName)
+                                        </td>
+                                        <td>
+                                            @item.InterviewDate.ToString("MM/dd/yyyy HH:mm")
+                                        </td>
+                                        <td>
+                                            @if (item.IsInterviewRemote)
+                                            {
+                                                @Html.DisplayFor(modelItem => item.OnlinePlatform.PlatformName)
+                                            }
+                                            else
+                                            {
+                                                @Html.DisplayFor(modelItem => item.InterviewPlace)
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Capacity)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Semester)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AcademicYear)
+                                        </td>
+                                        <td>
+                                            <a asp-action="DeleteGraduateProgram" asp-route-programId="@item.Id" class="btn btn-danger">Sil</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-12 col-xl-12 justify-content-center" style="margin-top:50px">
+                        <div class="container mt-3">
+                            <div class="alert alert-danger" role="alert">
+                                Başvurulara açılan program bulunmamaktadır!
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>

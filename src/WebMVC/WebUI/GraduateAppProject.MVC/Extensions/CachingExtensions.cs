@@ -11,7 +11,7 @@ namespace GraduateAppProject.MVC.Extensions
         {
             if (!_memoryCache.TryGetValue("IndexPageModelData", out CacheDataInfoForIndexPageModel cacheDataInfo))
             {
-                var options = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(1))
+                var options = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(10))
                                                            .SetPriority(CacheItemPriority.Normal);
 
                 cacheDataInfo = new CacheDataInfoForIndexPageModel()

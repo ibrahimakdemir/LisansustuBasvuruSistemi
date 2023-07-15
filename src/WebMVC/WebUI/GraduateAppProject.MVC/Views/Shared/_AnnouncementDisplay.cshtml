@@ -9,7 +9,7 @@
         <div class="d-flex">
             <div class="rounded rounded-4 shadow-lg border border-1 p-2 bg-white">
                 <div class="text-center">
-                    <h2 class="text-success">DUYURULAR</h2>
+                    <h3 class="text-success">DUYURULAR</h3>
                 </div>
                 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-indicators">
@@ -22,14 +22,16 @@
                         @foreach (var announcementDisplay in Model)
                         {
                             <div class="carousel-item @(count == 0 ? "active" : "")">
-                                <img src="@announcementDisplay.ImageURL" class="d-block img-fluid w-100" alt="image">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <div class="border border-2 border-success rounded rounded-3 bg-success p-2 bg-opacity-75">
-                                        <h3 class="text-danger">@announcementDisplay.Title</h3>
-                                        <p class="lead">@announcementDisplay.Message</p>
-                                    </div>
+                                <a asp-action="AnnouncementsDetail" asp-controller="Home" asp-route-id="@announcementDisplay.Id">
+                                    <img src="@announcementDisplay.ImageURL" class="d-block img-fluid w-100" alt="image">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <div class="border border-2 border-success rounded rounded-3 bg-success p-2 bg-opacity-75">
+                                            <h3 class="text-danger">@announcementDisplay.Title</h3>
+                                            <p class="lead">@announcementDisplay.Message</p>
+                                        </div>
 
-                                </div>
+                                    </div>
+                                </a>
                             </div>
                             count++;
                         }

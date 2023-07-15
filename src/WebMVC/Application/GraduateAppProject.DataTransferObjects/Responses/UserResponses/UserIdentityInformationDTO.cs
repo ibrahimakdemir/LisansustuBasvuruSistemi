@@ -22,5 +22,7 @@ namespace GraduateAppProject.DataTransferObjects.Responses.UserResponses
         public DateTime BirthDate { get; set; }
 
         public string BirthPlace { get; set; }
+        public string? PhotoURL { get; set; }
+
     }
 }

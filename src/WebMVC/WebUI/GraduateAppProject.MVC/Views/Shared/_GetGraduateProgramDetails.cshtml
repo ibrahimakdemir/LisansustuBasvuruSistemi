@@ -1,0 +1,21 @@
+﻿@model GraduateProgram
+
+
+<div class="py-5 m-4">
+    <div class="row mt-2">
+        <div class="col-md-4 mb-2"><label class="labels">Anabilim Dalı</label><input type="text" class="form-control " placeholder="Anabilim Dalı" value="@Model.GraduateMajor.GraduateMajorName" readonly></div>
+        <div class="col-md-4 mb-2"><label class="labels">Eğitim Dili</label><input type="text" class="form-control" value="@Model.Language.LanguageName" placeholder="Eğitim Dili" readonly></div>
+        <div class="col-md-4 mb-2"><label class="labels">Kontenjan</label><input type="text" class="form-control read" placeholder="Kontenjan" value="(@Model.Capacity)" readonly></div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-4 mb-2"><label class="labels">Mülakat Tarihi</label><input type="text" class="form-control" placeholder="Mülakat Tarihi" value="@Model.InterviewDate" readonly></div>
+        <div class="col-md-4 mb-2"><label class="labels">Mülakat Yeri</label><input type="text" class="form-control" placeholder="Mülakat Yeri" value="@Model.OnlinePlatform.PlatformName" readonly></div>
+        <!--Burada decrypted citizen number gösterilmelidir.-->
+        <div class="col-md-4 mb-2"><label class="labels">Eğitim Yılı</label><input type="text" class="form-control" placeholder="Eğitim Yılı" value="@Model.AcademicYear" readonly></div>
+
+        <div class="col-md-12 mb-2">
+            <label class="labels">Detaylar</label>
+            <textarea type="text" class="form-control" rows="5" readonly>@Model.Detail</textarea>
+        </div>
+    </div>
+</div>

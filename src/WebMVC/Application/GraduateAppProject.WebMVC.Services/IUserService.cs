@@ -1,9 +1,11 @@
 ﻿using GraduateAppProject.DataTransferObjects.Requests;
 using GraduateAppProject.DataTransferObjects.Responses;
 using GraduateAppProject.DataTransferObjects.Responses.UserResponses;
+using GraduateAppProject.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
@@ -25,7 +27,10 @@ namespace GraduateAppProject.WebMVC.Services
 
         string GetUserRoleByCitizenId(int citizenId);
         Task<string> GetUserRoleByCitizenIdAsync(int citizenId);
-
+        int GetUserIdByCitizenId(int citizenId);
+        Task<int> GetUserIdByCitizenIdAsync(int citizenId);
+        int GetCitizenIdByUserId(int userId);
+        Task<int> GetCitizenIdByUserIdAsync(int userId);
 
 
         Task<IList<UserAlesExamDTO>> GetUserAlesExamDTOByCitizenIdAsync(int citizenId);
@@ -34,5 +39,10 @@ namespace GraduateAppProject.WebMVC.Services
         Task<UserIdentityInformationDTO> GetUserIdentityInformationDTOByCitizenIdAsync(int citizenId);
         Task<IList<UserMasterDegreeDTO>> GetUserMasterDegreeDTOByCitizenIdAsync(int citizenId);
         Task<IList<UserYdsExamDTO>> GetUserYdsExamDTOByCitizenIdAsync(int citizenId);
+        Task<UserContactInformationDTO> GetUserContactInformationDTOByCitizenIdAsync(int citizenId);
+        Task UpdateUserContactInformationsByUserIdAsync(int userId, string mailAdress, string phoneNumber, string address);
+        Task UpdateUserPhotoURLByUserIdAsync(int userId, string filePath);
+        Task<IList<GraduateProgram>> GetUserApplicationProgramByUserIdAsync(int userId);
+        Task ApplyToProgramAsync(int userId, int programId);
     }
 }

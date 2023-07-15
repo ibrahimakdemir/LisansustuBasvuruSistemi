@@ -14,43 +14,52 @@ namespace GraduateAppProject.Infrastructure.Data
     {
         public static Citizen CreateFakeCitizens(IConfiguration configuration)
         {
+            // Create a new Citizen instance
             Citizen citizen = new();
 
+            // Generate a random value to determine the gender of the citizen
             var isMale = new Random().Next(0, 2);
-            //var isMale = new Random().Bool();
+
+            // Generate a random first name based on the gender
             if (isMale == 0)
             {
+                // If the citizen is male, generate a male first name
                 citizen.FirstName = new Faker("tr").Name.FirstName(gender: Bogus.DataSets.Name.Gender.Male).ToLowerInvariant();
             }
             else
             {
+                // If the citizen is female, generate a female first name
                 citizen.FirstName = new Faker("tr").Name.FirstName(gender: Bogus.DataSets.Name.Gender.Female).ToLowerInvariant();
-
             }
 
-
+            // Generate a random last name
             citizen.LastName = new Faker("tr").Name.LastName().ToLowerInvariant();
 
+            // Generate a random birth date
             citizen.BirthDate = (new Faker().Person.DateOfBirth).Date;
 
+            // Generate a random citizen number
             var randomCitizenNumber = (new Faker().Random.Long(10000000000, 99999999999)).ToString();
-
             citizen.CitizenNumber = randomCitizenNumber.EncryptWithHash(configuration);
 
+            // Generate random mother and father names
             citizen.MotherName = new Faker("tr").Name.FirstName(gender: Bogus.DataSets.Name.Gender.Female).ToLowerInvariant();
             citizen.FatherName = new Faker("tr").Name.FirstName(gender: Bogus.DataSets.Name.Gender.Male).ToLowerInvariant();
 
+            // Generate a random birth place
             citizen.BirthPlace = new Faker("tr").Person.Address.City.ToLowerInvariant();
 
+            // Generate fake YdsExam, AlesExam, MasterDegree, BachelorDegree, and DoctorateDegree for the citizen
             citizen.YdsExams.Add(CreateFakeYdsExam());
             citizen.AlesExams.Add(CreateFakeAlesExam());
             citizen.MasterDegrees.Add(CreateFakeMasterDegree());
             citizen.BachelorDegrees.Add(CreateFakeBachelorDegree());
             citizen.DoctorateDegrees.Add(CreateFakeDoctorateDegree());
 
-
+            // Return the generated citizen
             return citizen;
         }
+
 
         private static DoctorateDegree CreateFakeDoctorateDegree()
         {

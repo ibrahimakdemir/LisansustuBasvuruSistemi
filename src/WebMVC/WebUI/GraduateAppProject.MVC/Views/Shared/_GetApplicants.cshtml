@@ -1,0 +1,81 @@
+﻿@model List<UserIdentityInformationDTO>
+<style>
+    .image-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .small-image {
+        width: 32px;
+        transition: transform 0.5s;
+    }
+
+        .small-image:hover {
+            transform: scale(5);
+        }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table-responsive {
+        width: 100%;
+    }
+</style>
+
+<div class="col-md-12 col-xl-12 justify-content-center">
+    <div class="container-fluid mt-3">
+        <div class="rounded rounded-4 shadow-lg border border-1 table-responsive p-2 bg-light">
+            <div class="text-center">
+                <h3 class="text-success">Programa Başvuranlar</h3>
+            </div>
+            @if (Model.Count() == 0)
+            {
+
+                <div class="col-md-12 col-xl-12 justify-content-center">
+                    <div class="container mt-3">
+                        <div class="alert alert-danger" role="alert">
+                            Programa Başvuran Bulunmamaktadır!
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Fotoğraf</th>
+                            <th scope="col">Adı Soyadı</th>
+                            <th scope="col">Anne Adı</th>
+                            <th scope="col">Baba Adı</th>
+                            <th scope="col">Doğum Tarihi</th>
+                            <th scope="col">Doğum Yeri</th>
+                            <th scope="col">Detay</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td class="image-container">
+                                    <img src="@user.PhotoURL" alt="User Photo" width="64" class="small-image" />
+                                </td>
+                                <td>@user.FirstName @user.LastName</td>
+                                <td>@user.MotherName</td>
+                                <td>@user.FatherName</td>
+                                <td>@user.BirthDate.ToString("dd/MM/yyyy")</td>
+                                <td>@user.BirthPlace</td>
+                                <td>
+                                    <a asp-action="GetApplicantDetails" asp-route-userId="@user.Id" asp-route-programId="@ViewBag.ProgramId" class="btn btn-primary">Detay</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

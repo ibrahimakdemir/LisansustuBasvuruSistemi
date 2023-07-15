@@ -56,5 +56,12 @@ namespace GraduateAppProject.WebMVC.Repositories
         YdsExamsRequirement GetYdsExamsRequirementById(int id);
         Task<YdsExamsRequirement> GetYdsExamsRequirementByIdAsync(int id);
         IList<GraduateProgram> GetGraduateProgramWithAllInfo();
+        Task<IList<GraduateProgram>> GetGraduateProgramWithAllInfoAsync();
+        GraduateProgram GetGraduateProgramWithAllInfoByProgramId(int id);
+        Task<GraduateProgram> GetGraduateProgramWithAllInfoByProgramIdAsync(int id);
+        Task DisableGraduateProgramByProgramIdAsync(int programId);
+        Task<IList<UsersApplication>> GetApplicationsByProgramIdAsync(int programId);
+        Task DisableApplicationsByProgramIdAsync(int programId);
+        Task UpdateUserApplicationAsync(UsersApplication application);
     }
 }

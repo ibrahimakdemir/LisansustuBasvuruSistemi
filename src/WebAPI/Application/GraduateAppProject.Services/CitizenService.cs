@@ -1,4 +1,5 @@
 ﻿using GraduateAppProject.DataTransferObjects.Requests;
+using GraduateAppProject.Infrastructure.Models;
 using GraduateAppProject.Repositories;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,16 @@ namespace GraduateAppProject.Services
         public CitizenService(ICitizenRepository citizenRepository)
         {
             _citizenRepository = citizenRepository;
+        }
+
+        public Task<IList<Citizen>> GetCitizensAsync()
+        {
+            return _citizenRepository.GetAllAsync();
+        }
+
+        public IList<Citizen> GetCitizens()
+        {
+            return _citizenRepository.GetAll();
         }
 
         public int IsValidCitizen(CheckCitizenRequest request)

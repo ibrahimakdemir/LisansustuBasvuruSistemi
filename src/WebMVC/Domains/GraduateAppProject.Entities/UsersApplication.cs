@@ -24,8 +24,8 @@ namespace GraduateAppProject.Entities
         //public int AdminId { get; set; }
         public bool IsConfirmedByApplicant { get; set; }
         public bool IsActive { get; set; }
-        [ForeignKey(nameof(Receipt))]
-        public int ReceiptId { get; set; } // If graduate program has the thesis, the receipt should upload
+        //[ForeignKey(nameof(Receipt))]
+        //public int ReceiptId { get; set; } // If graduate program has the thesis, the receipt should upload
 
         public User User { get; set; }
         public GraduateProgram GraduateProgram { get; set; }
@@ -33,6 +33,6 @@ namespace GraduateAppProject.Entities
         public ApplicationsState ApplicationsState { get; set; }
         public Reason Reason { get; set; }
         //public User Admin { get; set; }
-        public Receipt Receipt { get; set; }
+        //public Receipt Receipt { get; set; }
     }
 }

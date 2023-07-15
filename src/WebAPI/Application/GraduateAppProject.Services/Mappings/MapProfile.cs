@@ -13,7 +13,7 @@ namespace GraduateAppProject.Services.Mappings
             CreateMap<BachelorDegree, CitizenBachelorDegreesDTO>();
             CreateMap<DoctorateDegree, CitizenDoctorateDegreesDTO>();
             CreateMap<MasterDegree, CitizenMasterDegreesDTO>();
-            CreateMap<YdsExam, CitizenYdsExamsDTO>();            
+            CreateMap<YdsExam, CitizenYdsExamsDTO>();
         }
     }
 }

@@ -9,8 +9,13 @@ namespace GraduateAppProject.WebMVC.Repositories
 {
     public interface IUserRepository:IRepository<User>
     {
+        Task ApplyToGraduateProgramAsync(int userId, int programId);
         User GetByCitizenNumber(string citizenNumber);
         Task<User> GetByCitizenNumberAsync(string citizenNumber);
+        int GetCitizenIdByUserId(int userId);
+        Task<int> GetCitizenIdByUserIdAsync(int userId);
+        IList<UsersApplication> GetUserApplicationsByUserId(int userId);
+        Task<IList<UsersApplication>> GetUserApplicationsByUserIdAsync(int userId);
         User GetUserByCitizenId(int citizenId);
         Task<User> GetUserByCitizenIdAsync(int citizenId);
         int GetUserIdByCitizenId(int citizenId);

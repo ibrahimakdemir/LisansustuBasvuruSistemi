@@ -85,6 +85,10 @@ namespace GraduateAppProject.WebMVC.Services
         {
             return _repository.GetGraduateProgramWithAllInfo();
         }
+        public async Task<IList<GraduateProgram>> GetGraduateProgramWithInfoAsync()
+        {
+            return await _repository.GetGraduateProgramWithAllInfoAsync();
+        }
 
         public IEnumerable<GraduateProgramDisplayResponse> GetGraduateProgramDisplayResponses()
         {
@@ -131,6 +135,37 @@ namespace GraduateAppProject.WebMVC.Services
         public IList<OnlinePlatform> GetPlatforms()
         {
             return _repository.GetOnlinePlatforms();
+        }
+
+        public GraduateProgram GetGraduateProgramWithInfoByProgramId(int id)
+        {
+            return _repository.GetGraduateProgramWithAllInfoByProgramId(id);
+        }
+
+        public async Task<GraduateProgram> GetGraduateProgramWithInfoByProgramIdAsync(int id)
+        {
+            return await _repository.GetGraduateProgramWithAllInfoByProgramIdAsync(id);
+        }
+
+        public async Task DeleteGraduateProgramByProgramIdAsync(int programId)
+        {
+            await _repository.DisableApplicationsByProgramIdAsync(programId);
+            await _repository.DisableGraduateProgramByProgramIdAsync(programId);
+        }
+
+        public async Task<IList<UsersApplication>> GetApplicationByProgramIdAsync(int programId)
+        {
+            return await _repository.GetApplicationsByProgramIdAsync(programId);
+        }
+
+        public async Task EvaluateUserApplicationAsync(UsersApplication application)
+        {
+            await _repository.UpdateUserApplicationAsync(application);
+        }
+
+        public async Task<IList<Reason>> GetReasonsAsync()
+        {
+            return await _repository.GetReasonAsync();
         }
     }
 }

@@ -110,15 +110,15 @@ namespace GraduateAppProject.Repositories
             return await _context.Citizens.AsNoTracking().FirstOrDefaultAsync(c => c.CitizenNumber == encryptedCitizenNumber);
         }
 
-        public void Update(Citizen entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task UpdateAsync(Citizen entity)
         {
             _context.Citizens.Update(entity);
             await _context.SaveChangesAsync();
         }
+        public void Update(Citizen entity)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

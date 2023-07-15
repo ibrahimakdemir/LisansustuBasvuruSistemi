@@ -2,6 +2,7 @@
 using GraduateAppProject.DataTransferObjects.Requests;
 using GraduateAppProject.DataTransferObjects.Responses.UserResponses;
 using GraduateAppProject.Entities;
+using GraduateAppProject.Infrastructure.Models;
 using GraduateAppProject.WebMVC.Repositories;
 using GraduateAppProject.WebMVC.Services.Extensions;
 
@@ -12,12 +13,14 @@ namespace GraduateAppProject.WebMVC.Services
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly HttpClient _httpClient;
+        private readonly IGraduateInformationService _graduateService;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, HttpClient httpClient)
+        public UserService(IUserRepository userRepository, IMapper mapper, HttpClient httpClient, IGraduateInformationService graduateInformationService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _httpClient = httpClient;
+            _graduateService = graduateInformationService;
         }
 
         public int? CheckUser(string citizenNumber, string password)
@@ -67,6 +70,15 @@ namespace GraduateAppProject.WebMVC.Services
         {
             string endPoint = $"GetIdentityInformationsByCitizenId?id={citizenId}";
             var userIdentityInformationDTO = await _httpClient.GetApiResponse<UserIdentityInformationDTO>(endPoint);
+            var user = await _userRepository.GetUserByCitizenIdAsync(citizenId);
+            
+            if (user != null)
+            {
+                userIdentityInformationDTO.PhotoURL = user.PhotoUrl;
+                userIdentityInformationDTO.Id = user.Id;
+            }
+                
+
             return userIdentityInformationDTO;
         }
         public async Task<IList<UserMasterDegreeDTO>> GetUserMasterDegreeDTOByCitizenIdAsync(int citizenId)
@@ -117,6 +129,76 @@ namespace GraduateAppProject.WebMVC.Services
         {
             var response = _mapper.Map<User>(request);
             await _userRepository.CreateAsync(response);
+        }
+
+        public int GetUserIdByCitizenId(int citizenId)
+        {
+            var user = _userRepository.GetUserByCitizenId(citizenId);
+            return user.Id;
+        }
+
+        public async Task<int> GetUserIdByCitizenIdAsync(int citizenId)
+        {
+            var user = await _userRepository.GetUserByCitizenIdAsync(citizenId);
+            return user.Id;
+        }
+
+        public int GetCitizenIdByUserId(int userId)
+        {
+            return _userRepository.GetCitizenIdByUserId(userId);
+        }
+
+        public Task<int> GetCitizenIdByUserIdAsync(int userId)
+        {
+            return _userRepository.GetCitizenIdByUserIdAsync(userId);
+        }
+
+        public async Task<UserContactInformationDTO> GetUserContactInformationDTOByCitizenIdAsync(int citizenId)
+        {
+            var user = await _userRepository.GetUserByCitizenIdAsync(citizenId);
+            var response = user.ConvertToDTO<User, UserContactInformationDTO>(_mapper);
+            return response;
+        }
+
+        public async Task UpdateUserContactInformationsByUserIdAsync(int userId, string mailAdress, string phoneNumber, string address)
+        {
+            var user = await _userRepository.GetAsync(userId);
+            if (user != null)
+            {
+                user.Address = address;
+                user.Email = mailAdress;
+                user.PhoneNumber = phoneNumber;
+                await _userRepository.UpdateAsync(user);
+            }
+        }
+
+        public async Task UpdateUserPhotoURLByUserIdAsync(int userId, string filePath)
+        {
+            var user = await _userRepository.GetAsync(userId);
+            if (user != null)
+            {
+                user.PhotoUrl = filePath;
+            }
+            await _userRepository.UpdateAsync(user);
+        }
+
+        public async Task<IList<GraduateProgram>> GetUserApplicationProgramByUserIdAsync(int userId)
+        {
+            var graduatePrograms = new List<GraduateProgram>();
+            var userApplications =await  _userRepository.GetUserApplicationsByUserIdAsync(userId);
+
+            
+            foreach (var application in userApplications)
+            {
+                var program = await _graduateService.GetGraduateProgramWithInfoByProgramIdAsync(application.GraduateProgramId);
+                graduatePrograms.Add(program);
+            }
+            return graduatePrograms;
+        }
+
+        public async Task ApplyToProgramAsync(int userId, int programId)
+        {
+            await _userRepository.ApplyToGraduateProgramAsync(userId,programId);
         }
     }
 }

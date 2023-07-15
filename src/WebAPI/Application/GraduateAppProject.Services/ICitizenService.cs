@@ -1,4 +1,5 @@
 ﻿using GraduateAppProject.DataTransferObjects.Requests;
+using GraduateAppProject.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace GraduateAppProject.Services
     {
         Task<int> IsValidCitizenAsync(CheckCitizenRequest request);
         int IsValidCitizen(CheckCitizenRequest request);
+        Task<IList<Citizen>> GetCitizensAsync();
+        IList<Citizen> GetCitizens();
+
 
     }
 }

@@ -22,12 +22,28 @@ namespace GraduateAppProject.WebMVC.Repositories
         {
             _dbContext.Users.Add(entity);
             _dbContext.SaveChanges();
+            _dbContext.UsersRoles.Add(new UsersRole() 
+            {
+                UserId = entity.Id,
+                RoleId = 1,
+                GraduateProgramId = 1,
+                IsActive = true
+            });
+            _dbContext.SaveChanges();
             return entity.Id;
         }
 
         public async Task<int> CreateAsync(User entity)
         {
             await _dbContext.Users.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+            await _dbContext.UsersRoles.AddAsync(new UsersRole()
+            {
+                UserId = entity.Id,
+                RoleId = 1,
+                GraduateProgramId = 1,
+                IsActive = true
+            });
             await _dbContext.SaveChangesAsync();
             return entity.Id;
         }
@@ -44,7 +60,7 @@ namespace GraduateAppProject.WebMVC.Repositories
 
         public User Get(int id)
         {
-            throw new NotImplementedException();
+            return _dbContext.Users.AsNoTracking().FirstOrDefault(u => u.Id == id);
         }
 
         public IList<User> GetAll()
@@ -57,9 +73,9 @@ namespace GraduateAppProject.WebMVC.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<User> GetAsync(int id)
+        public async Task<User> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public User GetUserByCitizenId(int citizenId)
@@ -70,7 +86,7 @@ namespace GraduateAppProject.WebMVC.Repositories
 
         public async Task<User> GetUserByCitizenIdAsync(int citizenId)
         {
-            var user = await _dbContext.Users.Include(u => u.UsersRoles).AsNoTracking().FirstOrDefaultAsync(u => u.CitizenId == citizenId);
+            var user = await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.CitizenId == citizenId);
             return user;
         }
 
@@ -98,12 +114,15 @@ namespace GraduateAppProject.WebMVC.Repositories
 
         public void Update(User entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Users.Update(entity);
+            _dbContext.SaveChanges();
         }
 
-        public Task UpdateAsync(User entity)
+        public async Task UpdateAsync(User entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Users.Update(entity);
+            await _dbContext.SaveChangesAsync();
+
         }
 
         public int GetUserIdByCitizenId(int citizenId)
@@ -128,6 +147,55 @@ namespace GraduateAppProject.WebMVC.Repositories
         {
             var usersRole = await _dbContext.UsersRoles.Include(ur => ur.Role).FirstOrDefaultAsync(r => r.UserId == userId);
             return usersRole.Role.RoleName;
+        }
+
+        public int GetCitizenIdByUserId(int userId)
+        {
+            var user =  _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            return user.CitizenId;
+        }
+
+        public async Task<int> GetCitizenIdByUserIdAsync(int userId)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            return user.CitizenId;
+        }
+
+        public IList<UsersApplication> GetUserApplicationsByUserId(int userId)
+        {
+            var applications = _dbContext.UsersApplications.Include(ua=>ua.GraduateProgram)
+                                                           .Include(ua=>ua.ApplicationsState)
+                                                           .Include(ua=>ua.Reason)
+                                                           .AsNoTracking()
+                                                           .Where(u => u.UserId == userId)
+                                                           .ToList();
+            return applications;
+        }
+
+        public async Task<IList<UsersApplication>> GetUserApplicationsByUserIdAsync(int userId)
+        {
+            var applications = await _dbContext.UsersApplications.Include(ua => ua.GraduateProgram)
+                                                           .Include(ua => ua.ApplicationsState)
+                                                           .Include(ua => ua.Reason)
+                                                           .AsNoTracking()
+                                                           .Where(u => u.UserId == userId && u.IsActive)
+                                                           .ToListAsync();
+            return applications;
+        }
+
+        public async Task ApplyToGraduateProgramAsync(int userId, int programId)
+        {
+            var newApplication = new UsersApplication()
+            {
+                UserId = userId,
+                GraduateProgramId = programId,
+                ApplicationStateId = 3, //Waiting
+                ReasonId = 1,
+                IsConfirmedByApplicant = true,
+                IsActive = true
+            };
+            await _dbContext.UsersApplications.AddAsync(newApplication);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using GraduateAppProject.DataTransferObjects;
 using GraduateAppProject.DataTransferObjects.Requests;
 using GraduateAppProject.DataTransferObjects.Responses;
+using GraduateAppProject.Infrastructure.Data;
 using GraduateAppProject.Infrastructure.Models;
 using GraduateAppProject.Services;
 using Microsoft.AspNetCore.Http;
@@ -15,31 +16,38 @@ namespace GraduateAppProject.API.Controllers
     {
         private readonly ICitizenService _citizenService;
         private readonly ICitizenInformationService _citizenInformationService;
-
-        public CitizenController(ICitizenService citizenService, ICitizenInformationService citizenInformationService)
+        private readonly ILogger<CitizenController> _logger;
+        private readonly IConfiguration _configuration;
+        public CitizenController(ICitizenService citizenService, ICitizenInformationService citizenInformationService, ILogger<CitizenController> logger, IConfiguration configuration)
         {
             _citizenService = citizenService;
             _citizenInformationService = citizenInformationService;
+            _logger = logger;
+            _configuration = configuration;
         }
 
 
-        //[HttpGet("{id:int}")]
-        //public async Task<IActionResult> GetCitizenInformations(int id)
-        //{
-        //    var citizenInfo = await _citizenInformationService.GetCitizenInformationsModelByCitizenIdAsync(id);
-        //    //var response = JsonSerializer.Serialize<CitizenInformationsModel>(citizenInfo);
-        //    return Ok(citizenInfo);
-        //}
+        [HttpGet("[action]")]
+        public async Task<IActionResult> ShowCitizensWithLogger()
+        {
+            var citizens = await _citizenService.GetCitizensAsync();
+            var divider = "----------------------------------------";
+            foreach (var citizen in citizens)
+            {
+                _logger.LogInformation($"Firstname: {citizen.FirstName}\n" +
+                                       $"Lastname: {citizen.LastName}\n" +
+                                       $"Birth Year: {citizen.BirthDate.Year}\n" +
+                                       $"Citizen Number: {citizen.CitizenNumber.DecryptWithHash(_configuration)}\n" +
+                                       $"{divider}\n ");
+            }
+            return Ok();
+        }
 
 
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAlesExamsByCitizenId(int id)
         {
             var alesExams = await _citizenInformationService.GetCitizenAlesExamsDTOByCitizenIdAsync(id);
-            //if (alesExams == null)
-            //{
-            //    return NotFound();
-            //}
             return Ok(alesExams);
         }
 
@@ -104,5 +112,7 @@ namespace GraduateAppProject.API.Controllers
             
 
         }
+
+        
     }
 }

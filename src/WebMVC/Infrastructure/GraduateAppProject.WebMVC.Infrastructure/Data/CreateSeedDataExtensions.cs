@@ -19,7 +19,7 @@ namespace GraduateAppProject.WebMVC.Infrastructure.Data
                 var startDate = new Faker().Date.Between(DateTime.Now, DateTime.Now.AddDays(7));
                 announcementList.Add(new Announcement()
                 {
-                    ImageURL = "https://source.unsplash.com/collection/190727/1280x720",
+                    ImageURL = "https://source.unsplash.com/collection/190727/1280x420",
                     StartDate = startDate,
                     EndDate = startDate.AddDays(7),
                     Title = new Faker().Commerce.ProductName(),

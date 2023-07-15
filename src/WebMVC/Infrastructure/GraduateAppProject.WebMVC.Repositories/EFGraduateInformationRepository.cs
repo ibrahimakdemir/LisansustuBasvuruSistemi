@@ -45,6 +45,15 @@ namespace GraduateAppProject.WebMVC.Repositories
             return graduates;
         }
 
+        public async Task<IList<GraduateProgram>> GetGraduateProgramWithAllInfoAsync()
+        {
+            var graduates = await _dbContext.GraduatePrograms.Include(g => g.GraduateMajor)
+                                                      .Include(g => g.Language)
+                                                      .Include(g => g.OnlinePlatform).AsNoTracking().Where(g => g.IsActive)
+                                                      .ToListAsync();
+            return graduates;
+        }
+
         public async Task<IList<GraduateProgram>> GetGraduateProgramsAsync()
         {
             var graduates = await _dbContext.GraduatePrograms.AsNoTracking().Where(g => g.IsActive).ToListAsync();
@@ -135,14 +144,15 @@ namespace GraduateAppProject.WebMVC.Repositories
             return _dbContext.OnlinePlatforms.AsNoTracking().ToList();
         }
 
-        public Task<IList<Reason>> GetReasonAsync()
+        public async Task<IList<Reason>> GetReasonAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Reasons.AsNoTracking().ToListAsync();
         }
 
         public IList<Reason> GetReasons()
         {
-            throw new NotImplementedException();
+            return _dbContext.Reasons.AsNoTracking().ToList();
+
         }
 
         public IList<YdsExamsRequirement> GetYdsExamsRequirements()
@@ -287,6 +297,51 @@ namespace GraduateAppProject.WebMVC.Repositories
         {
             _dbContext.GraduatePrograms.Add(graduateProgram);
             _dbContext.SaveChangesAsync();
+        }
+
+        public GraduateProgram GetGraduateProgramWithAllInfoByProgramId(int id)
+        {
+            var program = _dbContext.GraduatePrograms.Include(g => g.GraduateMajor)
+                                                     .Include(g => g.Language)
+                                                     .Include(g => g.OnlinePlatform).AsNoTracking()
+                                                     .FirstOrDefault(g => g.IsActive && g.Id == id);
+            return program;
+        }
+
+        public async Task<GraduateProgram> GetGraduateProgramWithAllInfoByProgramIdAsync(int id)
+        {
+            var program = await _dbContext.GraduatePrograms.Include(g => g.GraduateMajor)
+                                                      .Include(g => g.Language)
+                                                      .Include(g => g.OnlinePlatform).AsNoTracking()
+                                                      .FirstOrDefaultAsync(g => g.IsActive && g.Id == id);
+            return program;
+        }
+
+        public async Task DisableGraduateProgramByProgramIdAsync(int programId)
+        {
+            var program = await _dbContext.GraduatePrograms.FirstOrDefaultAsync(gp => gp.Id == programId);
+            if (program != null)
+                program.IsActive = false;
+            _dbContext.GraduatePrograms.Update(program);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IList<UsersApplication>> GetApplicationsByProgramIdAsync(int programId)
+        {
+            return await _dbContext.UsersApplications.Where(ua=>ua.GraduateProgramId == programId && ua.ApplicationStateId !=1).ToListAsync();
+        }
+
+        public async Task DisableApplicationsByProgramIdAsync(int programId)
+        {
+            var applications = await _dbContext.UsersApplications.Where(ua=>ua.GraduateProgramId == programId).ToListAsync();
+            applications.ForEach(a => a.IsActive = false);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateUserApplicationAsync(UsersApplication application)
+        {
+            _dbContext.UsersApplications.Update(application);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
