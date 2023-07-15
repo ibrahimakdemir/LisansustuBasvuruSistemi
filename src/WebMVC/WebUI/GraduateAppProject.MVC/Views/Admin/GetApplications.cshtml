@@ -1,0 +1,77 @@
+﻿@model IList<GraduateProgram>
+<div class="container col-lg-6 rounded rounded-4 shadow-lg border border-1 p-2 bg-white" style="margin-top:50px">
+    <h3 class="text-center text-success fw-bold mt-4">BAŞVURULAR</h3>
+    <div class="row justify-content-center">
+        @if (Model.Count() == 0)
+        {
+            <div class="col-md-12 col-xl-12 justify-content-center">
+                <div class="container mt-3">
+                    <div class="alert alert-danger" role="alert">
+                        Başvuruya Açılmış Program Bulunmamaktadır!
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="m-2">
+                <form>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group m-2">
+                        <label class="control-label">Lisansüstü Programlar</label>
+                        <select class="form-control" name="programId" id="graduateProgramSelect" asp-items="ViewBag.GraduateProgramsForSelectList">
+                            <option hidden value="" disabled selected>Yapılan Başvuruları Görmek İçin Lisansüstü Program Seçiniz</option>
+                        </select>
+                    </div>
+                    <div id="programDetails" class="m-2"></div>
+                    <div id="programApplicants" class="m-2"></div>
+                </form>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#graduateProgramSelect').change(function () {
+                var programId = $(this).val();
+
+
+                $.ajax({
+                    url: '/Admin/GetGraduateProgramDetails',
+                    type: 'GET',
+                    data: { programId: programId },
+                    success: function (response) {
+
+                        $('#programDetails').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+                $.ajax({
+                    url: '/Admin/GetApplicants',
+                    type: 'GET',
+                    data: { programId: programId },
+                    success: function (response) {
+
+                        $('#programApplicants').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+
+            var message = '@ViewBag.Message';
+            if (message !== '') {
+                alertify.alert(message).set('basic', true);
+            }
+
+        });
+    </script>
+
+}
