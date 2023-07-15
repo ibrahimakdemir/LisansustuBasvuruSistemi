@@ -1,1 +1,73 @@
-﻿<h1>Burada Mesajlar görünmelidir!!!</h1>
+﻿@model IList<MailDisplayResponse>
+
+<div class="col-md-12 col-xl-12 justify-content-center" style="margin-top:50px">
+    <div class="container mt-3">
+        <div class="rounded rounded-4 shadow-lg table-responsive border border-1 p-2 bg-light">
+            @if (Model.Count() != 0)
+            {
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+                            <h3>Mailler</h3>
+                            <ul class="list-group" id="mailList">
+                                @foreach (var mail in Model)
+                                {
+                                    <li class="list-group-item" onclick="showMailContent(this, '@mail.Message', '@mail.GuestFirstName @mail.GuestLastName', '@mail.GuestMailAddress', '@mail.Id')">@mail.GuestFirstName @mail.GuestLastName</li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="col-lg-8 col-md-6">
+                            <h3 class="text-center">E-Posta Detayı</h3>
+                            <div class="card">
+                                <div class="card-body" id="selectedMail">
+                                    <h5 class="card-title">Mail Konusu</h5>
+                                    <p class="card-text">Mail İçeriği</p>
+                                </div>
+                            </div>
+                            <form action="/Admin/SendMail" method="post">
+                                <div class="mb-3">
+                                    <label for="replyMessage" class="form-label">Cevap Yaz</label>
+                                    <textarea class="form-control" id="replyMessage" name="message" rows="3"></textarea>
+                                </div>
+                                <input type="hidden" id="mailAddress" name="mailAddress" value="">
+                                <input type="hidden" id="mailId" name="mailId" value="">
+                                <button type="submit" class="btn btn-primary">Gönder</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-12 col-xl-12 justify-content-center" style="margin-top:50px">
+                    <div class="container mt-3">
+                        <div class="alert alert-danger" role="alert">
+                            Herhangi bir yardım talebi bulunmamaktadır!
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function showMailContent(element, message, subject, mailAddress, mailId) {
+            var selectedMailContent = document.getElementById("selectedMail");
+            selectedMailContent.innerHTML = "<h5 class='card-title'>" + subject + "</h5><p class='card-text'>" + message + "</p>";
+
+            var mailItems = document.querySelectorAll("#mailList li");
+            mailItems.forEach(function (item) {
+                item.classList.remove("active");
+            });
+            element.classList.add("active");
+
+            var mailAddressInput = document.getElementById("mailAddress");
+            mailAddressInput.value = mailAddress;
+
+            var mailIdInput = document.getElementById("mailId");
+            mailIdInput.value = mailId;
+        }
+    </script>
+}

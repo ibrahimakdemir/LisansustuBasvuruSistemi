@@ -64,7 +64,7 @@ namespace GraduateAppProject.WebMVC.Repositories
 
         public async Task<IList<HelpMessage>> GetAllAsync()
         {
-            return await _context.HelpMessages.AsNoTracking().ToListAsync();
+            return await _context.HelpMessages.AsNoTracking().Where(hm=>!hm.IsRead).ToListAsync();
         }
 
         public async Task<HelpMessage> GetAsync(int id)
@@ -78,6 +78,19 @@ namespace GraduateAppProject.WebMVC.Repositories
         }
 
         public Task UpdateAsync(HelpMessage entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UpdateByIdAsync(int mailId)
+        {
+            var mail = _context.HelpMessages.Find(mailId);
+            mail.IsRead = true;
+            _context.HelpMessages.Update(mail);
+            await _context.SaveChangesAsync();
+        }
+
+        public Task UpdateMessageAsync(HelpMessage entity)
         {
             throw new NotImplementedException();
         }

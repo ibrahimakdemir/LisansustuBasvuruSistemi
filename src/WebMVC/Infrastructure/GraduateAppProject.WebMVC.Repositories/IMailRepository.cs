@@ -9,5 +9,6 @@ namespace GraduateAppProject.WebMVC.Repositories
 {
     public interface IMailRepository : IRepository<HelpMessage>
     {
+        Task UpdateByIdAsync(int mailId);
     }
 }

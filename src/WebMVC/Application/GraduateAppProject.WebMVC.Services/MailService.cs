@@ -7,6 +7,15 @@ using GraduateAppProject.WebMVC.Services.Extensions;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GraduateAppProject.WebMVC.Services
 {
@@ -62,45 +71,76 @@ namespace GraduateAppProject.WebMVC.Services
         }
 
 
-        //Burası iyi tasarlanmalıdır!!!!!!!!!
+        public async Task SendMailAsync(Controller controller, string mailAddress, string message, int mailId)
+        {
+            var username = _configuration["Mail:Username"];
+            var password = _configuration["Mail:Password"];
+            var host = _configuration["Mail:Host"];
+            int port = Convert.ToInt32(_configuration["Mail:Port"]);
 
-        //public async Task SendMailAsync(CreateNewMailRequest request)
-        //{
-        //    var username = _configuration["Mail:Username"];
-        //    var password = _configuration["Mail:Password"];
-        //    var host = _configuration["Mail:Host"];
-        //    int port = Convert.ToInt32(_configuration["Mail:Port"]);
+            MailMessage mail = new MailMessage();
 
-        //    MailMessage mail = new MailMessage();
-
-        //    mail.IsBodyHtml = true;
+            mail.IsBodyHtml = true;
 
 
-        //    mail.To.Add("admin@gmail.com"); //Buraya admin e-mail adresi eklenmelidir.
+            mail.To.Add(mailAddress);
 
-        //    var message = string.Empty;
-        //    if (request.IsRegistered)
-        //    {
-        //        // Get User Information to add message
-        //        message = "GetUsersInformationsByUserId IN Session";
-        //    }
-        //    else
-        //    {
-        //        message = request.GuestFirstName + " " + request.GuestLastName;
-        //    }
+            mail.Subject = "Lisansüstü Başvuru Sistemi Yardım Talebi";
+            string body = await RenderViewToStringAsync(controller, "_MailResponseDisplay", message);
+            mail.Body = body;
 
-        //    mail.Subject = "Lisansüstü Başvuru Sitemi Yardım Talebi";
-        //    mail.Body = request.Message;
+            mail.From = new(username, "AKDEMİR ÜNİVERSİTESİ", System.Text.Encoding.UTF8);
 
-        //    mail.From = new(username, "AKDEMİR ÜNİVERSİTESİ", System.Text.Encoding.UTF8);
+            SmtpClient smtp = new();
 
-        //    SmtpClient smtp = new();
+            smtp.Credentials = new NetworkCredential(username, password);
+            smtp.Port = port;
+            smtp.EnableSsl = true;
+            smtp.Host = host;
+            await smtp.SendMailAsync(mail);
 
-        //    smtp.Credentials = new NetworkCredential(username, password);
-        //    smtp.Port = port;
-        //    smtp.EnableSsl = true;
-        //    smtp.Host = host;
-        //    await smtp.SendMailAsync(mail);
-        //}
+        
+            await _mailRepository.UpdateByIdAsync(mailId);
+        }
+
+        public async Task<string> RenderViewToStringAsync(Controller controller, string viewName, object model)
+        {
+            var httpContext = new DefaultHttpContext { RequestServices = controller.HttpContext.RequestServices };
+            var actionContext = new ActionContext(httpContext, new RouteData(), new ControllerActionDescriptor());
+
+            using (var sw = new StringWriter())
+            {
+                var viewEngine = controller.HttpContext.RequestServices.GetRequiredService<ICompositeViewEngine>();
+                var viewResult = viewEngine.FindView(actionContext, viewName, false);
+
+                if (viewResult.Success)
+                {
+                    var tempDataDictionaryFactory = controller.HttpContext.RequestServices.GetRequiredService<ITempDataDictionaryFactory>();
+                    var tempDataDictionary = tempDataDictionaryFactory.GetTempData(controller.HttpContext);
+
+                    var viewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
+                    {
+                        Model = model
+                    };
+
+                    var viewContext = new ViewContext(
+                        actionContext,
+                        viewResult.View,
+                        viewData,
+                        tempDataDictionary,
+                        sw,
+                        new HtmlHelperOptions()
+                    );
+
+                    await viewResult.View.RenderAsync(viewContext);
+                    return sw.ToString();
+                }
+            }
+
+            return string.Empty;
+        }
+
+
+
     }
 }
